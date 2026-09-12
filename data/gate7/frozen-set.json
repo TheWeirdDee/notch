@@ -1,0 +1,84 @@
+{
+  "lockedAt": "2026-09-10T08:24:38.307Z",
+  "positions": [
+    {
+      "positionIndex": 1,
+      "streamId": "181",
+      "createTxHash": "0xe0f58597bca48c38450145dadd32214397f24050f4b5458a2d56c353d441a91c",
+      "depositAmountHuman": "500"
+    },
+    {
+      "positionIndex": 2,
+      "streamId": "182",
+      "createTxHash": "0xf2f12c5cb6a40f525c5eef9de48899f9f781387443a9ef9ccc180d6e9b9c8412",
+      "depositAmountHuman": "800"
+    },
+    {
+      "positionIndex": 3,
+      "streamId": "183",
+      "createTxHash": "0x8846a61a527c1424a4ea202a30364789bf55480f9046aba78fc581e58141aa28",
+      "depositAmountHuman": "1200"
+    },
+    {
+      "positionIndex": 4,
+      "streamId": "184",
+      "createTxHash": "0x540c38ec1cf8b2ee35021e447c6d760732023d6c8085ac44a52e1f7d4300c0ce",
+      "depositAmountHuman": "600"
+    },
+    {
+      "positionIndex": 5,
+      "streamId": "185",
+      "createTxHash": "0xa6f2f2624d111b7df09e0d0b65a14dde000454358a5f881cc7936aa44b69f671",
+      "depositAmountHuman": "1000"
+    }
+  ],
+  "lenders": {
+    "A": "0x28ac3e5DA22cC5380Ca2797F9c882ddAF93D74E1",
+    "B": "0xF48795C36CbF0578D47cf0731f6B1aCf4efEb7EA",
+    "C": "0x791e88A27E3813BdCCCCd96cF667b5750893b0Ed"
+  },
+  "drawPlanFractionsOfCapacity": [
+    {
+      "step": 1,
+      "lender": "A",
+      "fraction": "0.7",
+      "note": "first draw"
+    },
+    {
+      "step": 2,
+      "lender": "B",
+      "fraction": "0.6",
+      "note": "second draw, over-request under full"
+    },
+    {
+      "step": 3,
+      "lender": "C",
+      "fraction": "0.5",
+      "note": "third draw, over-request under full"
+    },
+    {
+      "step": 4,
+      "lender": "A",
+      "fraction": "0.7",
+      "note": "new action (distinct actionKey), same amount as step 1 -- distinguishes per-lender ceiling (no_conservation) from no ceiling at all (single_lender_guard)"
+    }
+  ],
+  "note": "No literal actionKey-replay step: the pure reference model has no idempotency vocabulary (that's a Gate 5/D23 on-chain concern layered on top of it, already proven for real), so a replay receipt would have no model-producible reason code and would reintroduce the exact DRIFT class found and fixed in Gate 6 (D24). Revised before any finance scenario ran -- positions were already created on Sepolia at revision time, but no instantiate or finance call had happened.",
+  "scenariosPerPosition": [
+    "sequential draws per drawPlanFractionsOfCapacity, ablation full: real on-chain",
+    "sequential draws per drawPlanFractionsOfCapacity, ablations no_conservation/single_lender_guard: pure local computation over the same real decoded capacity and the same draw plan",
+    "re-instantiation attempt (replay of instantiateClaim on the same real source)"
+  ],
+  "setWideScenarios": [
+    "one fake/wrong-shape source attempt, reused real proof from Gate 3 (cancelable=true stream), refetched fresh per D12",
+    "user_supplied_amount ablation: one deliberately wrong typed amount compared against the real decoded depositAmount for one position, shown to disagree"
+  ],
+  "ablations": [
+    "full",
+    "no_conservation",
+    "single_lender_guard",
+    "user_supplied_amount"
+  ],
+  "headlineFormula": "sum over positions of (total financed under no_conservation - capacity)",
+  "frozenSetHash": "0x1f5f083822412180b5c05cec0438c5125d2ac42011c10f11644f4cf4170ba75c"
+}
