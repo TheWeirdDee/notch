@@ -1,0 +1,110 @@
+{
+  "synthetic": true,
+  "evidence": [
+    {
+      "test": "ReceiptNotSuccess",
+      "outcome": "expected decoded revert",
+      "synthetic": true
+    },
+    {
+      "test": "CancelableNotAllowed",
+      "outcome": "expected decoded revert",
+      "synthetic": true
+    },
+    {
+      "test": "UnlockAmountsNotZero",
+      "outcome": "expected decoded revert",
+      "synthetic": true
+    },
+    {
+      "test": "SourceContractNotAllowlisted",
+      "outcome": "expected decoded revert",
+      "synthetic": true
+    },
+    {
+      "test": "VerificationFailed",
+      "outcome": "expected decoded revert",
+      "synthetic": true
+    },
+    {
+      "test": "TransferableNotAllowed",
+      "outcome": "expected decoded revert",
+      "synthetic": true
+    },
+    {
+      "test": "DepositNotPositive",
+      "outcome": "expected decoded revert",
+      "synthetic": true
+    },
+    {
+      "test": "TokenNotApproved",
+      "outcome": "expected decoded revert",
+      "synthetic": true
+    },
+    {
+      "test": "CliffNotFuture",
+      "outcome": "expected decoded revert",
+      "synthetic": true
+    },
+    {
+      "test": "VerificationFailed",
+      "outcome": "expected decoded revert",
+      "synthetic": true
+    },
+    {
+      "test": "ClaimAlreadyActive",
+      "outcome": "expected decoded revert",
+      "synthetic": true
+    },
+    {
+      "test": "AmountNotPositive",
+      "outcome": "expected decoded revert",
+      "synthetic": true
+    },
+    {
+      "test": "AmountNotRepresentable",
+      "outcome": "expected decoded revert",
+      "synthetic": true
+    },
+    {
+      "test": "AmountNotRepresentable",
+      "outcome": "expected decoded revert",
+      "synthetic": true
+    },
+    {
+      "test": "InsufficientFinancingCapacity",
+      "outcome": "expected decoded revert",
+      "synthetic": true
+    },
+    {
+      "test": "InsufficientFinancingCapacity",
+      "outcome": "expected decoded revert",
+      "synthetic": true
+    },
+    {
+      "test": "ClaimNotActive",
+      "outcome": "expected decoded revert",
+      "synthetic": true
+    },
+    {
+      "test": "OnlyVenue",
+      "outcome": "expected decoded revert",
+      "synthetic": true
+    },
+    {
+      "test": "VenueImmutable",
+      "outcome": "expected decoded revert",
+      "synthetic": true
+    },
+    {
+      "test": "ActionAlreadyApplied",
+      "outcome": "expected decoded revert",
+      "synthetic": true
+    },
+    {
+      "test": "ClaimExpired",
+      "outcome": "expected decoded revert",
+      "synthetic": true
+    }
+  ]
+}
