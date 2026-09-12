@@ -406,3 +406,34 @@ second lender differs from the first settled lender. Live registry and event rea
 supply the product figures; receipt hashes only locate evidence, never provide a
 snapshot fallback. See D39 and dashboard-mined-refusal.json. No mainnet settlement,
 repayment, or protection against an external lending registry is claimed.
+
+## C9 — Gate 9: submission materials are real and accurate, with two honestly-stated gaps
+
+**Claim:** the README, integration doc, and deck lead with real evidence and make no
+claim beyond what's proven; the two items this session could not physically produce
+(a recorded video, a posted forum question) have complete, ready-to-use substitutes
+instead of being silently skipped.
+
+**Evidence:**
+- `README.md`'s headline (3,280 units over-financing prevented, denominator 5
+  positions × 4 draw steps × 3 lenders) is the same number `GATES.md` Gate 7 and
+  `CLAIMS.md` C7 already established — not a new or rounded figure. Its three
+  explorer links resolve to real, currently-valid transactions (stream 189, not the
+  expired stream 186).
+- `ATTESTCOIN_INTEGRATION.md`'s calldata-fallback claim (FIX 1, D41) was verified by
+  reading `AttestedCashflowRegistry.sol` directly — there is no fallback code path,
+  confirmed, not inferred.
+- The deck's competitive framing quotes the PRD's own section 3 language and names
+  only entries `DECISIONS.md` D5 item 10 already permits naming.
+- `DEMO_SCRIPT.md` and `CODESIGN_QUESTION.md` exist specifically because this session
+  checked for recording/posting capability and found none, rather than assuming or
+  guessing at what those deliverables should contain.
+
+**What this claim does NOT cover:** an actual recorded video, or an actual posted
+Discord/Slack message. Both are marked open in `GATES.md` Gate 9, not folded into a
+blanket "submission complete."
+
+**Denominator:** 5 real submission artifacts produced (README, integration doc, deck,
+demo script, co-design draft), 2 genuinely not producible by this session and said so
+directly, 0 regressions (87/87 tests, 44/44 ledger MATCH unchanged). See `GATES.md`
+Gate 9 for the full account.
