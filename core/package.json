@@ -1,0 +1,23 @@
+{
+  "name": "@notch/core",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Notch reference model: capacity decode and conservation. Deterministic, no network.",
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "generate-golden": "tsx generate-golden.mjs"
+  },
+  "dependencies": {
+    "viem": "^2.21.0"
+  },
+  "devDependencies": {
+    "vitest": "^3.2.4",
+    "typescript": "^5.9.3",
+    "tsx": "^4.19.0",
+    "@types/node": "^22.10.0"
+  }
+}
