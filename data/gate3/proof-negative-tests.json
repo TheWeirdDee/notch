@@ -1,0 +1,20 @@
+{
+  "recordedAt": "2026-09-09T13:01:09.487Z",
+  "results": [
+    {
+      "label": "replay",
+      "outcome": "REVERTED",
+      "reason": "ClaimAlreadyActive (custom error; confirmed by decoded lookup in an earlier identical run against the prior registry deployment)"
+    },
+    {
+      "label": "wrong-chain-key",
+      "outcome": "REVERTED",
+      "reason": "Continuity proof does not match attestation or checkpoint"
+    },
+    {
+      "label": "fake-merkle-proof",
+      "outcome": "REVERTED",
+      "reason": "Merkle proof validation failed"
+    }
+  ]
+}
