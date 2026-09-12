@@ -72,7 +72,6 @@ contract AttestedCashflowRegistry {
 
     IEvmV1Decoder public immutable decoder;
     address public immutable approvedDemoAsset;
-    address public immutable owner;
     address public immutable venue;
 
     struct Timestamps {
@@ -117,7 +116,6 @@ contract AttestedCashflowRegistry {
     event ClaimInstantiated(
         bytes32 indexed claimId, address indexed borrower, uint128 originalCapacity, uint40 lockedUntil
     );
-    event VenueSet(address indexed venue);
 
     error VerificationFailed();
     error UnsupportedTransactionType();
@@ -135,7 +133,6 @@ contract AttestedCashflowRegistry {
     error AmountNotPositive();
     error InsufficientFinancingCapacity();
     error OnlyVenue();
-    error NotOwner();
     error VenueImmutable();
     error TransferableNotAllowed();
     error ClaimExpired();
@@ -143,16 +140,18 @@ contract AttestedCashflowRegistry {
     constructor(address decoderAddress, address approvedDemoAssetAddress, address ccUSDAddress, uint8 depositDecimals) {
         decoder = IEvmV1Decoder(decoderAddress);
         approvedDemoAsset = approvedDemoAssetAddress;
-        owner = msg.sender;
-        // The registry deploys its only venue itself. No owner-controlled bootstrap
-        // window or replacement can redirect consumption to an arbitrary contract.
+        // The registry deploys its only venue itself, in the same transaction as its
+        // own construction. No owner-controlled bootstrap window or replacement can
+        // redirect consumption to an arbitrary contract.
         venue = address(new CashflowLendingVenue(address(this), ccUSDAddress, depositDecimals));
     }
 
-    /// Owner-controlled bootstrap: the venue's constructor needs this registry's
-    /// address, so the registry can't know the venue's address at its own construction
-    /// time. Not one-time-locked (an earlier version was); kept updatable by the owner
-    /// so a venue redeploy doesn't orphan every claim already stored in this registry.
+    /// The venue is permanently immutable by design (DECISIONS.md D22/D23): a prior
+    /// version allowed the owner to repoint it post-deploy, which would have let an
+    /// owner redirect capacity consumption to an arbitrary contract -- a real finding,
+    /// fixed by removing the setter's ability to do anything at all, not by adding
+    /// access control to it. This function exists only so that call site continues to
+    /// resolve; it always reverts, unconditionally, for any input, forever.
     function setVenue(address) external pure {
         revert VenueImmutable();
     }
