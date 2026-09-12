@@ -1,0 +1,13 @@
+{
+  "passed": true,
+  "checks": [
+    "mobile landing: no horizontal overflow",
+    "invalid input visibly refused",
+    "real proof with wrong stream: refused without capacity",
+    "demo reset and fresh verification",
+    "mobile live contract refusal, no overflow",
+    "activity settlement and refusal"
+  ],
+  "errors": [],
+  "recordedAt": "2026-09-11T10:41:22.606Z"
+}
