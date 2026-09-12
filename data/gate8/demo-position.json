@@ -1,0 +1,21 @@
+{
+  "purpose": "Gate 8 frontend money-shot demo position",
+  "network": "ethereum-sepolia",
+  "sourceChainKey": 1,
+  "sourceContract": "0xe61cb9153356419bdaD0A8767c059f92d221a3C4",
+  "createTxHash": "0xf3ff2fd50a617e4784ff8726aca05c7241f279081a1ef39640134656e35bad2e",
+  "blockNumber": "11674297",
+  "streamId": "186",
+  "borrower": "0xB112f2cAdE7743833F9fbc2Fd58BD4779F9e0C03",
+  "demoAsset": "0x7d20609bdb2fa772143905d6ada079b1515db0b0",
+  "depositAmount": "100000000000000000000000",
+  "depositAmountHuman": "100000",
+  "cancelable": false,
+  "transferable": false,
+  "unlockAmountsStart": "0",
+  "unlockAmountsCliff": "0",
+  "timestampsStart": 1789035410,
+  "timestampsEnd": 1789294610,
+  "cliffTime": 1789208210,
+  "recordedAt": "2026-09-10T10:17:15.666Z"
+}
