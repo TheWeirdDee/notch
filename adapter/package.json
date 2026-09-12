@@ -1,0 +1,24 @@
+{
+  "name": "@notch/adapter",
+  "private": true,
+  "version": "0.2.0",
+  "type": "module",
+  "description": "ProofBuilder HTTP client (fetch), precompile calls (viem), proof assembly, and the append-only ledger. No SDK, no ethers.",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "dependencies": {
+    "@notch/core": "*",
+    "viem": "^2.21.0",
+    "dotenv": "^16.4.7",
+    "ulid": "^2.3.0"
+  },
+  "devDependencies": {
+    "vitest": "^3.2.4",
+    "typescript": "^5.9.3",
+    "@types/node": "^22.10.0"
+  }
+}
