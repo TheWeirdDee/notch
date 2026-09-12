@@ -1,0 +1,15 @@
+{
+  "recordedAt": "2026-09-09T13:00:48.587Z",
+  "results": [
+    {
+      "label": "cancelable-stream",
+      "outcome": "REVERTED",
+      "reason": "CancelableNotAllowed"
+    },
+    {
+      "label": "failed-receipt",
+      "outcome": "REVERTED",
+      "reason": "ReceiptNotSuccess"
+    }
+  ]
+}
