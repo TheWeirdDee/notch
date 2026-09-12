@@ -1,0 +1,52 @@
+{
+  "recordedAt": "2026-09-09T13:08:26.651Z",
+  "claimId": "0x99161b1e0e9f40613c9f07f522ca412085919df2617831a972139508503cfae9",
+  "lenderA": "0x28ac3e5DA22cC5380Ca2797F9c882ddAF93D74E1",
+  "lenderB": "0xF48795C36CbF0578D47cf0731f6B1aCf4efEb7EA",
+  "results": [
+    {
+      "label": "lenderA-finances-70000",
+      "outcome": "SUCCEEDED",
+      "tx": "0xf8c19f56180f378eb5ef8e006c2e8fcc084828c231f5333100897a291a757e1d",
+      "blockNumber": "5457909",
+      "availableAfter": "30000000000000000000000"
+    },
+    {
+      "label": "remainder-plus-one",
+      "outcome": "REVERTED",
+      "reason": "InsufficientFinancingCapacity (selector 0xa3388671, decoded separately)"
+    },
+    {
+      "label": "lenderB-over-requests-50000",
+      "outcome": "REVERTED",
+      "reason": "InsufficientFinancingCapacity (selector 0xa3388671, decoded separately)"
+    },
+    {
+      "label": "zero-amount",
+      "outcome": "REVERTED",
+      "reason": "AmountNotPositive (selector 0xb3f73cea, decoded separately)"
+    },
+    {
+      "label": "exact-remainder-exhausts",
+      "outcome": "SUCCEEDED",
+      "tx": "0xee4ad848bff6ddd94058daf65c08d1d443f0cb23af046e68bfadcef87dff311c",
+      "blockNumber": "5457910",
+      "availableAfter": "0"
+    },
+    {
+      "label": "post-exhaustion-any-draw-fails",
+      "outcome": "REVERTED",
+      "reason": "InsufficientFinancingCapacity (selector 0xa3388671, decoded separately)"
+    },
+    {
+      "label": "unauthorized-venue",
+      "outcome": "REVERTED",
+      "reason": "OnlyVenue"
+    },
+    {
+      "label": "inactive-claim",
+      "outcome": "REVERTED",
+      "reason": "ClaimNotActive (selector 0x24fbaa90, decoded separately)"
+    }
+  ]
+}
