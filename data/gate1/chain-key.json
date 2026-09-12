@@ -1,0 +1,18 @@
+{
+  "confirmedAt": "2026-09-09T08:11:50.438Z",
+  "rpcUrl": "https://rpc.cc3-testnet.creditcoin.network",
+  "sepoliaChainId": 11155111,
+  "confirmedSepoliaChainKey": "1",
+  "allSupportedChains": [
+    {
+      "chainKey": "3",
+      "chainId": "1",
+      "chainEncoding": 1
+    },
+    {
+      "chainKey": "1",
+      "chainId": "11155111",
+      "chainEncoding": 1
+    }
+  ]
+}
