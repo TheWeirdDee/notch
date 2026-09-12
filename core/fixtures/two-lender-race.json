@@ -1,0 +1,33 @@
+{
+  "description": "Two independent lenders draw against the same fresh 100,000 claim in sequence: Lender A takes 70,000 (succeeds, leaving 30,000 available), then Lender B requests 50,000 (rejected -- 50,000 was well within the original 100,000 capacity, but not within what's left after A). This is the exact PRD money-shot scenario (Appendix E / J2): first applied wins, second is rejected, on-chain and recomputable, not a UI check.",
+  "synthetic": true,
+  "note": "Claim state built on the real Gate 1 stream, starting fully undrawn. Both lender addresses are synthetic placeholders; the draw amounts (70,000 then 50,000) are the PRD's own documented demo numbers.",
+  "operation": "apply_sequence",
+  "claim": {
+    "claimId": "0x2f3515684d371770be9fa985bf14d9ced224f5c6801684c8e03d46a2a26d9137",
+    "sourceChainKey": 1,
+    "sourceTxHash": "0x9d3a408bccf1f1a6fe14fd7493dc379b064cf058956a898bf394dfb0df380cc8",
+    "sourceContract": "0xe61cb9153356419bdaD0A8767c059f92d221a3C4",
+    "streamId": "177",
+    "borrower": "0xB112f2cAdE7743833F9fbc2Fd58BD4779F9e0C03",
+    "asset": "0x7d20609bdb2fa772143905d6ada079b1515db0b0",
+    "originalCapacity": "100000000000000000000000",
+    "financedCapacity": "0",
+    "lockedUntil": 1789547451,
+    "active": true
+  },
+  "loans": [
+    {
+      "lender": "0x00000000000000000000000000000000000000A1",
+      "amount": "70000000000000000000000",
+      "viaAuthorizedVenue": true,
+      "transferWouldSucceed": true
+    },
+    {
+      "lender": "0x00000000000000000000000000000000000000A2",
+      "amount": "50000000000000000000000",
+      "viaAuthorizedVenue": true,
+      "transferWouldSucceed": true
+    }
+  ]
+}
