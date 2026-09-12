@@ -1,0 +1,46 @@
+@import "tailwindcss";
+
+.panel { border: 1px solid #d8d0c0; background: #f7f3eb; }
+html { scroll-behavior: smooth; scroll-padding-top: 6rem; }
+button, summary, a { -webkit-tap-highlight-color: transparent; }
+button:not(:disabled), summary { cursor: pointer; }
+:focus-visible { outline: 2px solid #b23a2e; outline-offset: 4px; }
+
+:root {
+  --bone: #eee9de;
+  --ink: #17150f;
+  --ink-soft: #6b6558;
+  --line: #d8d0c0;
+  --cut: #b23a2e;
+  --settled: #2e5d3a;
+}
+
+@theme inline {
+  --color-bone: var(--bone);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-line: var(--line);
+  --color-cut: var(--cut);
+  --color-settled: var(--settled);
+  --font-display: var(--font-fraunces);
+  --font-sans: var(--font-inter);
+}
+
+body {
+  background: var(--bone);
+  color: var(--ink);
+  font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
