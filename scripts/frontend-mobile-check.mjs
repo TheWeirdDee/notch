@@ -1,0 +1,51 @@
+﻿import { chromium } from 'playwright-core';
+import { writeFileSync } from 'node:fs';
+import assert from 'node:assert/strict';
+const browser = await chromium.launch({executablePath:'C:/Program Files/Google/Chrome/Application/chrome.exe',headless:true});
+const page = await browser.newPage({viewport:{width:390,height:844},isMobile:true,hasTouch:true});
+const errors=[]; page.on('pageerror',e=>errors.push(e.message));
+const checks=[];
+try {
+await page.goto('http://localhost:3101',{waitUntil:'domcontentloaded'});
+await page.getByRole('link',{name:'Try the live demo',exact:true}).waitFor();
+assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+await page.screenshot({path:'data/gate8/landing-mobile.png',fullPage:true}); checks.push('mobile landing: no horizontal overflow');
+await page.getByRole('link',{name:'Try the live demo',exact:true}).click();
+await page.getByRole('button',{name:'Use your own cashflow',exact:true}).click();
+assert.equal(await page.getByLabel('Stream ID',{exact:true}).inputValue(),'186');
+await page.getByLabel('Creation transaction',{exact:true}).fill('bad hash');
+await page.getByRole('button',{name:'Verify cashflow',exact:true}).click();
+await page.locator('main').getByRole('alert').filter({hasText:'Enter the full creation transaction hash'}).waitFor();
+checks.push('invalid input visibly refused');
+await page.getByRole('button',{name:'Use demo cashflow',exact:true}).click();
+await page.getByRole('button',{name:'Use your own cashflow',exact:true}).click();
+assert.equal(await page.getByLabel('Stream ID',{exact:true}).inputValue(),'186');
+await page.getByLabel('Stream ID',{exact:true}).fill('999999');
+await page.getByRole('button',{name:'Verify cashflow',exact:true}).click();
+await page.locator('main').getByRole('alert').waitFor({timeout:120000});
+console.log('WRONG STREAM',await page.locator('main').getByRole('alert').innerText());
+assert.equal(await page.getByRole('link',{name:'See position and remaining capacity'}).count(),0);
+checks.push('real proof with wrong stream: refused without capacity');
+await page.getByRole('button',{name:'Use demo cashflow',exact:true}).click();
+await page.getByRole('button',{name:'Verify cashflow',exact:true}).click();
+await page.getByRole('link',{name:'See position and remaining capacity'}).waitFor({timeout:120000});
+assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+await page.screenshot({path:'data/gate8/verify-mobile.png',fullPage:true}); checks.push('demo reset and fresh verification');
+await page.getByRole('link',{name:'See position and remaining capacity'}).click();
+await page.getByRole('button',{name:'Check an overdraw',exact:true}).waitFor({timeout:60000});
+await page.getByRole('button',{name:'Check an overdraw',exact:true}).click();
+await page.getByRole('link',{name:'See activity',exact:true}).waitFor({timeout:60000});
+await page.screenshot({path:'data/gate8/position-mobile.png',fullPage:true});
+assert(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)); checks.push('mobile live contract refusal, no overflow');
+await page.getByRole('link',{name:'See activity',exact:true}).click();
+await page.waitForURL('**/activity/**');
+await page.getByRole('heading',{name:'Activity',exact:true}).waitFor();
+await page.getByText('Settled on Creditcoin',{exact:true}).first().waitFor({timeout:60000});
+await page.getByText('Draw refused',{exact:true}).waitFor();
+await page.screenshot({path:'data/gate8/activity-mobile.png',fullPage:true}); checks.push('activity settlement and refusal');
+assert.deepEqual(errors,[]);
+console.log(JSON.stringify({passed:true,checks,errors}));
+writeFileSync('data/gate8/browser-mobile-result.json',JSON.stringify({passed:true,checks,errors,recordedAt:new Date().toISOString()},null,2));
+} catch(e) {console.log('FAILED',e.message,await page.locator('main').innerText());await page.screenshot({path:'data/gate8/mobile-failure.png',fullPage:true}); process.exitCode=1;}
+finally {await browser.close();}
+
