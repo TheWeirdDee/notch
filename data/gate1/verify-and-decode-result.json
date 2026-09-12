@@ -1,0 +1,74 @@
+{
+  "outcome": "PASS",
+  "probeAddress": "0xf22eb0ecf36cc05964cefa1e759bb9f20535c292",
+  "verifyAndDecodeTx": "0x5c0ee8c904f66ace23bb56740048301ad375aad3ab682d6f9519e78d11029e89",
+  "blockNumber": "5456844",
+  "decoded": {
+    "streamId": "177",
+    "recipient": "0xB112f2cAdE7743833F9fbc2Fd58BD4779F9e0C03",
+    "token": "0x7D20609BDB2fA772143905D6aDA079b1515db0b0",
+    "depositAmount": "100000000000000000000000",
+    "cancelable": false,
+    "unlockAmountsStart": "0",
+    "unlockAmountsCliff": "0",
+    "cliffTime": 1789547451,
+    "endTime": 1792139451
+  },
+  "checks": [
+    {
+      "field": "streamId",
+      "onChain": "177",
+      "local": "177",
+      "match": true
+    },
+    {
+      "field": "recipient",
+      "onChain": "0xb112f2cade7743833f9fbc2fd58bd4779f9e0c03",
+      "local": "0xb112f2cade7743833f9fbc2fd58bd4779f9e0c03",
+      "match": true
+    },
+    {
+      "field": "token",
+      "onChain": "0x7d20609bdb2fa772143905d6ada079b1515db0b0",
+      "local": "0x7d20609bdb2fa772143905d6ada079b1515db0b0",
+      "match": true
+    },
+    {
+      "field": "depositAmount",
+      "onChain": "100000000000000000000000",
+      "local": "100000000000000000000000",
+      "match": true
+    },
+    {
+      "field": "cancelable",
+      "onChain": "false",
+      "local": "false",
+      "match": true
+    },
+    {
+      "field": "unlockAmountsStart",
+      "onChain": "0",
+      "local": "0",
+      "match": true
+    },
+    {
+      "field": "unlockAmountsCliff",
+      "onChain": "0",
+      "local": "0",
+      "match": true
+    },
+    {
+      "field": "cliffTime",
+      "onChain": "1789547451",
+      "local": "1789547451",
+      "match": true
+    },
+    {
+      "field": "endTime",
+      "onChain": "1792139451",
+      "local": "1792139451",
+      "match": true
+    }
+  ],
+  "recordedAt": "2026-09-09T08:41:01.325Z"
+}
