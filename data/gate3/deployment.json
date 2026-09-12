@@ -1,0 +1,28 @@
+{
+  "deployedAt": "2026-09-09T12:59:16.312Z",
+  "deployer": "0x8d3D151BE11977b2BF61CFF0Ca0550Fc4d043EdE",
+  "network": "creditcoin-cc3-testnet",
+  "contracts": {
+    "MockUSDC": {
+      "address": "0x395233630063706d9fd25c1ac8afdb2e9b59916d",
+      "deployTx": "0x3bdbe01fa7601c75ae5e3673f2795f871f2ad31204cff329622fec7fb7f0bca6"
+    },
+    "AttestedCashflowRegistry": {
+      "address": "0xbfeaf8492ba01278ad3e382a2b9a3482cf54c640",
+      "deployTx": "0x3bd71ffd5f7ce6c7b8526f1816a629bdeea6fe9c2724fded8ec28bea941e96e9",
+      "constructorArgs": {
+        "decoder": "0x731c345d79Fb8BbDC541f9DF3b6317585F849F9f",
+        "approvedDemoAsset": "0x7d20609bdb2fa772143905d6ada079b1515db0b0"
+      }
+    },
+    "CashflowLendingVenue": {
+      "address": "0x595e0b3ba3b39084addf8ecd0c185976c307a7d3",
+      "deployTx": "0x0544206e3fcccd0e8ad198624f021c0b92edce4b8cdc0fcf32cc2917a8b80acd",
+      "constructorArgs": {
+        "registry": "0xbfeaf8492ba01278ad3e382a2b9a3482cf54c640",
+        "ccUSD": "0x395233630063706d9fd25c1ac8afdb2e9b59916d"
+      }
+    }
+  },
+  "setVenueTx": "0x8de4c339ea4cfb03bef05401501afa421fdca4173597f4dd66774703e470cc89"
+}
