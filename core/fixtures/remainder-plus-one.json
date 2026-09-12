@@ -1,0 +1,25 @@
+{
+  "description": "Same 70,000-financed starting point as exact-remainder.json, but the request is the remainder plus one unit (30,000 * 1e18 + 1). Must be rejected -- conservation admits no dust-level over-draw.",
+  "synthetic": true,
+  "note": "Same synthetic starting claim as exact-remainder.json; only the requested amount differs, by exactly 1.",
+  "operation": "apply",
+  "claim": {
+    "claimId": "0x2f3515684d371770be9fa985bf14d9ced224f5c6801684c8e03d46a2a26d9137",
+    "sourceChainKey": 1,
+    "sourceTxHash": "0x9d3a408bccf1f1a6fe14fd7493dc379b064cf058956a898bf394dfb0df380cc8",
+    "sourceContract": "0xe61cb9153356419bdaD0A8767c059f92d221a3C4",
+    "streamId": "177",
+    "borrower": "0xB112f2cAdE7743833F9fbc2Fd58BD4779F9e0C03",
+    "asset": "0x7d20609bdb2fa772143905d6ada079b1515db0b0",
+    "originalCapacity": "100000000000000000000000",
+    "financedCapacity": "70000000000000000000000",
+    "lockedUntil": 1789547451,
+    "active": true
+  },
+  "loan": {
+    "lender": "0x00000000000000000000000000000000000000A2",
+    "amount": "30000000000000000000001",
+    "viaAuthorizedVenue": true,
+    "transferWouldSucceed": true
+  }
+}
