@@ -1,0 +1,25 @@
+{
+  "description": "A financing attempt against a claimId with active=false -- either a claim that was never successfully instantiated (failed a shape check) or one an attacker is probing that simply does not exist. Must be rejected before amount or capacity are even considered.",
+  "synthetic": true,
+  "note": "Fully synthetic -- represents a non-existent/never-instantiated claim, so it is not derived from the real Gate 1 stream.",
+  "operation": "apply",
+  "claim": {
+    "claimId": "0x0000000000000000000000000000000000000000000000000000000000000000",
+    "sourceChainKey": 1,
+    "sourceTxHash": "0x0000000000000000000000000000000000000000000000000000000000000000",
+    "sourceContract": "0xe61cb9153356419bdaD0A8767c059f92d221a3C4",
+    "streamId": "0",
+    "borrower": "0x0000000000000000000000000000000000000000",
+    "asset": "0x7d20609bdb2fa772143905d6ada079b1515db0b0",
+    "originalCapacity": "0",
+    "financedCapacity": "0",
+    "lockedUntil": 0,
+    "active": false
+  },
+  "loan": {
+    "lender": "0x00000000000000000000000000000000000000A1",
+    "amount": "1000000000000000000000",
+    "viaAuthorizedVenue": true,
+    "transferWouldSucceed": true
+  }
+}
