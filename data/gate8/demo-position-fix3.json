@@ -1,0 +1,21 @@
+{
+  "purpose": "Gate 9 FIX 3 replacement demo position (stream 186 expired 2026-09-12 11:16:50 UTC)",
+  "network": "ethereum-sepolia",
+  "sourceChainKey": 1,
+  "sourceContract": "0xe61cb9153356419bdaD0A8767c059f92d221a3C4",
+  "createTxHash": "0x1e7d304d9d8ed1bb4ef54961c2d5551b35c224403fa46de30bb9cb28144a81fa",
+  "blockNumber": "11689803",
+  "streamId": "189",
+  "borrower": "0xB112f2cAdE7743833F9fbc2Fd58BD4779F9e0C03",
+  "demoAsset": "0x7d20609bdb2fa772143905d6ada079b1515db0b0",
+  "depositAmount": "100000000000000000000000",
+  "depositAmountHuman": "100000",
+  "cancelable": false,
+  "transferable": false,
+  "unlockAmountsStart": "0",
+  "unlockAmountsCliff": "0",
+  "timestampsStart": 1789227139,
+  "timestampsEnd": 1791905539,
+  "cliffTime": 1791819139,
+  "recordedAt": "2026-09-12T15:32:41.080Z"
+}
