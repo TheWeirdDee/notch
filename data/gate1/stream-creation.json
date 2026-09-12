@@ -1,0 +1,18 @@
+{
+  "network": "ethereum-sepolia",
+  "sourceChainKey": 1,
+  "sourceContract": "0xe61cb9153356419bdaD0A8767c059f92d221a3C4",
+  "createTxHash": "0x9d3a408bccf1f1a6fe14fd7493dc379b064cf058956a898bf394dfb0df380cc8",
+  "blockNumber": "11666803",
+  "streamId": "177",
+  "borrower": "0xB112f2cAdE7743833F9fbc2Fd58BD4779F9e0C03",
+  "demoAsset": "0x7d20609bdb2fa772143905d6ada079b1515db0b0",
+  "depositAmount": "100000000000000000000000",
+  "cancelable": false,
+  "unlockAmountsStart": "0",
+  "unlockAmountsCliff": "0",
+  "timestampsStart": 1788942651,
+  "timestampsEnd": 1792139451,
+  "cliffTime": 1789547451,
+  "recordedAt": "2026-09-09T08:31:30.486Z"
+}
