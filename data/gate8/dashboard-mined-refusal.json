@@ -1,0 +1,14 @@
+{
+  "txHash": "0xa9b55a55e918a1e8c344ac07d5aac502af10d85b609cc2a37cbce254e6de51ac",
+  "claimId": "0x70a0992f0b923ed066c952c441f1c13e660a1b51f81c54b8ec1ec3231b480454",
+  "actionKey": "0x1f460438301daa131f174c64518384584369abc374819ff573111a81d6dd0da8",
+  "lender": "0xF48795C36CbF0578D47cf0731f6B1aCf4efEb7EA",
+  "originalLender": "0x28ac3e5da22cc5380ca2797f9c882ddaf93d74e1",
+  "requestedRaw": "50000000000000000000000",
+  "availableRaw": "0",
+  "afterRaw": "0",
+  "status": "reverted",
+  "block": "5469750",
+  "reason": "InsufficientFinancingCapacity",
+  "recordedAt": "2026-09-11T14:32:32.958Z"
+}
