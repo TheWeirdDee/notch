@@ -1,0 +1,8 @@
+{
+  "paper_only": true,
+  "network": {
+    "source_chain": "ethereum-sepolia",
+    "source_chain_key": 1,
+    "settlement_chain": "creditcoin-cc3-testnet"
+  }
+}
