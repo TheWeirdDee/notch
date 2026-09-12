@@ -1,0 +1,10 @@
+{
+  "probeAddress": "0x01cc5f4f37d75eabf096921cd0bfc8429ee67859",
+  "pointedAt": "0x395233630063706d9fd25c1ac8afdb2e9b59916d",
+  "deployTx": "0xcb5bbf56aee6abbe58d4a4ad3ca626767f1a768b742ee324fe85d702cd096af2",
+  "recordedAt": "2026-09-09T13:10:22.115Z",
+  "result": {
+    "outcome": "REVERTED",
+    "reason": "The contract function \"verify\" reverted with the following reason:\nVM Exception while processing transaction: revert"
+  }
+}
