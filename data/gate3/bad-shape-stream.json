@@ -1,0 +1,11 @@
+{
+  "purpose": "bad-shape (cancelable=true) fixture for Gate 3 on-chain parity test",
+  "network": "ethereum-sepolia",
+  "sourceChainKey": 1,
+  "sourceContract": "0xe61cb9153356419bdaD0A8767c059f92d221a3C4",
+  "createTxHash": "0x6cd2ae6e62c48e6fc971b1ffe0c76f4df6feb8c92c359466e608ef29e1de910d",
+  "blockNumber": "11668046",
+  "streamId": "178",
+  "cancelable": true,
+  "recordedAt": "2026-09-09T12:49:13.750Z"
+}
