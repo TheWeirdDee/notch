@@ -7,6 +7,7 @@ import { REGISTRY_ADDRESS, VENUE_ADDRESS } from "./constants";
 const transactions: Hash[] = [
   "0xa9b55a55e918a1e8c344ac07d5aac502af10d85b609cc2a37cbce254e6de51ac",
   "0x3c3f167b411d80b9cd05e245ab76fa3870a0bda38e2ddddeb62290c6d67be136",
+  "0x62cb553555d429951b88b9fc38459b1f57cdc2225ee0a1254edece662a4a8b93",
 ];
 export async function readMinedRefusals(client: PublicClient, claimId: Hash) {
   const rows = await Promise.all(transactions.map(async hash => {
