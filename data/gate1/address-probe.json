@@ -1,0 +1,37 @@
+{
+  "probedAt": "2026-09-09T08:13:14.533Z",
+  "results": [
+    {
+      "label": "SablierLockup v4.0 (Sepolia)",
+      "address": "0xe61cb9153356419bdaD0A8767c059f92d221a3C4",
+      "hasCode": true,
+      "isPrecompile": false,
+      "ok": true,
+      "byteLength": 24481
+    },
+    {
+      "label": "BlockProver precompile (CC3)",
+      "address": "0x0000000000000000000000000000000000000FD2",
+      "hasCode": false,
+      "isPrecompile": true,
+      "ok": true,
+      "byteLength": 0
+    },
+    {
+      "label": "ChainInfo precompile (CC3)",
+      "address": "0x0000000000000000000000000000000000000fd3",
+      "hasCode": false,
+      "isPrecompile": true,
+      "ok": true,
+      "byteLength": 0
+    },
+    {
+      "label": "Decoder contract (CC3)",
+      "address": "0x731c345d79Fb8BbDC541f9DF3b6317585F849F9f",
+      "hasCode": true,
+      "isPrecompile": false,
+      "ok": true,
+      "byteLength": 9598
+    }
+  ]
+}
