@@ -1,0 +1,13 @@
+﻿import { createPublicClient, http, decodeFunctionData } from 'viem';
+import { writeFileSync } from 'node:fs';
+import { cc3Testnet } from '../web/src/lib/chains.ts';
+import { venueAbi, registryAbi } from '../web/src/lib/abi.ts';
+import { REGISTRY_ADDRESS, VENUE_ADDRESS } from '../web/src/lib/constants.ts';
+const c=createPublicClient({chain:cc3Testnet,transport:http(undefined,{timeout:15000})});
+const hash='0x3c3f167b411d80b9cd05e245ab76fa3870a0bda38e2ddddeb62290c6d67be136';
+const [tx,r]=await Promise.all([c.getTransaction({hash}),c.getTransactionReceipt({hash})]);
+const d=decodeFunctionData({abi:venueAbi,data:tx.input});
+const claim=await c.readContract({address:REGISTRY_ADDRESS,abi:registryAbi,functionName:'claims',args:[d.args[1]],blockNumber:r.blockNumber});
+const out={tx,r,d,claim};
+writeFileSync('data/gate8/dashboard-refusal-probe.json',JSON.stringify(out,(_,v)=>typeof v==='bigint'?v.toString():v,2));
+console.log(JSON.stringify({status:r.status,block:r.blockNumber,from:tx.from,to:tx.to,decoded:d,claim},(_,v)=>typeof v==='bigint'?v.toString():v));
