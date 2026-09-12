@@ -1,0 +1,10 @@
+{
+  "claimId": "0x70a0992f0b923ed066c952c441f1c13e660a1b51f81c54b8ec1ec3231b480454",
+  "instantiateTx": "0x4c9d3c08b83d9acc288e12ca3f4a9e938281af6bb02f0b91001cfba1af3ebda2",
+  "financeTxLenderA": "0xa4c1848fe03c48c17d74a5dcd554d15b4893a3eb4c146e8e2bc913e00ce8e78b",
+  "refusalReason": "The contract function \"finance\" reverted with the following signature:\n0xa3388671",
+  "originalCapacity": "100000000000000000000000",
+  "financedCapacity": "70000000000000000000000",
+  "available": "30000000000000000000000",
+  "recordedAt": "2026-09-10T11:02:04.727Z"
+}
