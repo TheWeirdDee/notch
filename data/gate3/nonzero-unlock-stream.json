@@ -1,0 +1,11 @@
+{
+  "purpose": "non-zero-unlock fixture for Gate 3 on-chain parity test",
+  "network": "ethereum-sepolia",
+  "sourceChainKey": 1,
+  "sourceContract": "0xe61cb9153356419bdaD0A8767c059f92d221a3C4",
+  "createTxHash": "0x57664b779d3fc2c6b583cd68756d21064b6a232ab45b71087d04076936784676",
+  "blockNumber": "11668156",
+  "streamId": "179",
+  "unlockAmountsStart": "100000000000000000000",
+  "recordedAt": "2026-09-09T13:12:03.219Z"
+}
