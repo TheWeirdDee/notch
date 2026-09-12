@@ -1,0 +1,28 @@
+{
+  "name": "notch",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Notch — a conservation layer for cross-chain cashflow-backed lending on Creditcoin.",
+  "workspaces": [
+    "core",
+    "contracts",
+    "adapter",
+    "cli",
+    "web"
+  ],
+  "scripts": {
+    "test": "npm run test --workspace=core && npm run test --workspace=adapter && npm run test --workspace=contracts",
+    "test:core": "npm run test --workspace=core",
+    "dev": "npm run dev --workspace=web",
+    "build": "npm run build --workspace=web"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "dotenv": "^16.4.7",
+    "solc": "^0.8.28",
+    "viem": "^2.21.0"
+  }
+}
