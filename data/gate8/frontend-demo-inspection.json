@@ -1,0 +1,17 @@
+[
+  {
+    "file": "demo-position.json",
+    "claimId": "0x70a0992f0b923ed066c952c441f1c13e660a1b51f81c54b8ec1ec3231b480454",
+    "original": "100000000000000000000000",
+    "financed": "70000000000000000000000",
+    "lockedUntil": 1789208210,
+    "active": true,
+    "generatedAt": "2026-09-11T04:13:21.667052758Z",
+    "source": "0xf3ff2fd50a617e4784ff8726aca05c7241f279081a1ef39640134656e35bad2e"
+  },
+  {
+    "file": "demo-position-2-live-test.json",
+    "http": 404,
+    "error": "BlockNotOnSourceChain"
+  }
+]
