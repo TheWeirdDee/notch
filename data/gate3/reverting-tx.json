@@ -1,0 +1,8 @@
+{
+  "purpose": "failed-receipt fixture for Gate 3 on-chain parity test -- deliberately reverted on Sepolia",
+  "network": "ethereum-sepolia",
+  "createTxHash": "0x7a3e762b3b29178df8627e6152aad089842a4955dae1e8633798845b28dd1077",
+  "blockNumber": "11668053",
+  "status": "reverted",
+  "recordedAt": "2026-09-09T12:50:49.110Z"
+}
