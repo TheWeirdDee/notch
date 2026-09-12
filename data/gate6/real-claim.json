@@ -1,0 +1,7 @@
+{
+  "instantiateTx": "0xda347eececed0a51ffb31cdff7a84ca1bbb91723fd436a79bd6ea4573623d282",
+  "claimId": "0xf8919504acf5e62398764d807b7955e40af7272e6531ec0ad44a2f0b8ca50055",
+  "note": "New position (stream 180), not a re-instantiation of Gate 3's stream 177 -- see script header comment.",
+  "blockNumber": "5459451",
+  "recordedAt": "2026-09-09T19:34:19.110Z"
+}
