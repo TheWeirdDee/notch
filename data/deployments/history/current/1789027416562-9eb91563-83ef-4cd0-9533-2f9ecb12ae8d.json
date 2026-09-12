@@ -1,0 +1,33 @@
+{
+  "deployedAt": "2026-09-09T19:22:39.777Z",
+  "deployer": "0x8d3D151BE11977b2BF61CFF0Ca0550Fc4d043EdE",
+  "network": "creditcoin-cc3-testnet",
+  "supersedes": {
+    "MockUSDC": "0x395233630063706d9fd25c1ac8afdb2e9b59916d",
+    "AttestedCashflowRegistry": "0xbfeaf8492ba01278ad3e382a2b9a3482cf54c640",
+    "CashflowLendingVenue": "0x24ca704f62793badc0bb7cbfd2393a1a63e5f5a0",
+    "claimId": "0x99161b1e0e9f40613c9f07f522ca412085919df2617831a972139508503cfae9"
+  },
+  "contracts": {
+    "MockUSDC": {
+      "address": "0x92db42991210a8f5a4c1de2ad36f10ef239f3498",
+      "deployTx": "0xa0590e19ce9c4e67adc2fae78d459239a35f8e9d4efa7f6de2da87ff0fe2445a"
+    },
+    "AttestedCashflowRegistry": {
+      "address": "0x68952727aa2e684bec378120a651434b1de5e915",
+      "deployTx": "0x0fc1bebdc0f6e0f3604a8b7bb064fa8279d5fcb31d4724b2464aaaa2053797e6",
+      "constructorArgs": {
+        "decoder": "0x731c345d79Fb8BbDC541f9DF3b6317585F849F9f",
+        "approvedDemoAsset": "0x7d20609bdb2fa772143905d6ada079b1515db0b0",
+        "ccUSD": "0x92db42991210a8f5a4c1de2ad36f10ef239f3498",
+        "depositAssetDecimals": 18
+      }
+    },
+    "CashflowLendingVenue": {
+      "address": "0x5CEB2357eCC2fcA5eA77057ce8D74646E0C76493",
+      "note": "Self-deployed by the registry's constructor, not a separate deployContract call."
+    }
+  },
+  "rulesVersion": 2,
+  "sourceManifest": "data/gate6/deployment.json"
+}
