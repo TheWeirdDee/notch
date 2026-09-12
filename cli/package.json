@@ -1,0 +1,20 @@
+{
+  "name": "@notch/cli",
+  "private": true,
+  "version": "0.2.0",
+  "type": "module",
+  "description": "notch verify, notch campaign. Run via `npx tsx cli/src/index.ts <command>` or `npm run notch --workspace=cli -- <command>`.",
+  "scripts": {
+    "notch": "tsx src/index.ts",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "dependencies": {
+    "@notch/core": "*",
+    "@notch/adapter": "*"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.0",
+    "typescript": "^5.9.3",
+    "@types/node": "^22.10.0"
+  }
+}
