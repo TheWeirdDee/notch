@@ -897,3 +897,114 @@ The user authorized publishing safe files to GitHub main individually. Gate 9 ha
 not started. Publication is not a blanket Gate 8 acceptance claim. The preloaded
 stream expires at 2026-09-12 11:16:50 UTC; its historical evidence remains readable,
 while new financing and activation checks refuse an expired lock.
+
+## Phase 1 — audit fix pass (2026-09-12)
+
+Standing pre-gate sweep run cold before any fix: 87/87 tests, 44/44 ledger MATCH,
+deployment addresses reconciled, `.env` untracked, landing/live-read rules confirmed
+still holding in current source. Full account of all five fixes: `DECISIONS.md` D41
+and the entries below.
+
+- **FIX 1 (A5, calldata fallback):** `ATTESTCOIN_INTEGRATION.md` created; `/docs`
+  updated with a matching note. Precision correction on the original audit: the
+  fallback isn't merely untested, it doesn't exist in the deployed contract at all —
+  `instantiateClaim` has exactly one decode path and reverts `EventNotFound()` if the
+  event is absent, rather than reading calldata.
+- **FIX 2 (setVenue comment / dead code):** source-only, confirmed no redeploy needed
+  — the live Gate 6 contract is already correct and immutable. Comment rewritten to
+  match the code's actual (always-reverts) behavior; `owner`, `error NotOwner()`, and
+  (found during the fix, not in the original ask) `event VenueSet(...)` removed as
+  genuinely dead declarations. 20/20 contract tests unaffected.
+- **FIX 3 (demo stream cliff expiry):** stream 186's cliff passed at 2026-09-12
+  11:16:50 UTC; confirmed expired at the time of this fix (current time was already
+  past it). Created a fresh, rule-compliant stream (189, 100,000 deposit,
+  `cancelable=false`, `transferable=false`, zero unlock amounts, a 30-day cliff —
+  comfortably past the submission window): create tx
+  `0x1e7d304d9d8ed1bb4ef54961c2d5551b35c224403fa46de30bb9cb28144a81fa`. Real
+  instantiate (`0x2f2ada0a4d1b0f0030227de7b464c94e723d524815b21c67dfed45362aefeffe`,
+  claimId `0x3fed0d1620134bb777847debb9f2bb9f7c455668f67b03c780f0f6896c0a0a48`), real
+  70,000 finance by Lender A
+  (`0x442e69ef2ca5122d686834e1db867a587bc23ca35178bdd1d9d0c4a541fb8978`), real 50,000
+  over-draw refusal by Lender B, mined and reverted
+  (`0x62cb553555d429951b88b9fc38459b1f57cdc2225ee0a1254edece662a4a8b93`, confirmed
+  `InsufficientFinancingCapacity` at 30,000 available). `web/src/lib/demo.ts`
+  repointed; the new refusal tx added to `mined-refusals.ts`'s pointer list and
+  independently re-verified against every field that component's own logic reads
+  (tx→venue match, claimId match, reverted status, historical `available()`, decoded
+  revert reason) before being trusted. Stream 186's own receipts and documentation are
+  untouched — this is a pointer update, not a rewrite of what already happened.
+- **FIX 4 (375px):** structural audit only — no browser tool available (D30). Checked
+  directly: zero fixed-pixel widths anywhere beyond the capacity bar's 2–3px accent
+  marks; every multi-column grid is breakpoint-gated (`sm:grid-cols-*`, none bare);
+  `overflow-x-auto` present on both wide-content blocks (`/docs` table,
+  `/recompute` `<pre>`); `flex-wrap` present on every multi-element row across all
+  seven surfaces. **Marked structurally compliant, not confirmed rendered** — a human
+  click-through at 375px is still the open item.
+- **FIX 5 (copy):** re-grepped for "Sablier" misspellings (a naive regex initially
+  flagged "disabled"/"disable" as false positives; the real, case-sensitive check
+  found none). No leftover tour/demo language on product surfaces — the one "demo
+  cashflow" instance on Verify is required wording per `RULES.md` F13, not chrome. No
+  hardcoded amount framing left anywhere (`mined-refusals` reads every figure live;
+  there is no static "20,000" vs "50,000" text to contradict itself).
+
+Post-fix sweep: `tsc --noEmit` clean, `eslint .` clean, `next build --webpack` clean
+(7 routes). Full regression: 87/87, unchanged. Ledger: 44/44 MATCH, unchanged.
+
+**Flagged, not resolved either way:** a parallel session's `DECISIONS.md` D39 entry
+states the user has authorized committing and pushing to GitHub main. This session
+received no such instruction directly and has not acted on it. Nothing committed by
+this session.
+
+Phase 1: **complete.** Proceeding to Phase 2 (Gate 9) only after this is reported.
+
+## Gate 9 — submission freeze (2026-09-12)
+
+Pre-req confirmed: Phase 1 clean, demo points at a non-expiring compliant stream (189,
+30-day cliff), landing/live-read/no-hardcoded-state rules hold in current source.
+
+1. **README** rewritten to lead with the result: the 3,280-unit headline with its
+   denominator, a one-line what-it-is, three live explorer links (source, instantiate,
+   finance — all stream 189, all real), the real reverted refusal tx, a
+   verify-a-receipt/recompute-from-chain recipe, then how-to-run/deploy/test.
+2. **`ATTESTCOIN_INTEGRATION.md`** (created in Phase 1 FIX 1) extended: the boundaries
+   table now has an explicit inclusion-vs-success row, not just narrative text above
+   it. Accurate to current source — verify/decode/instantiate path, decoder/precompile
+   addresses, the calldata-fallback-does-not-exist note, the guarantees table.
+3. **Demo video**: **not recorded.** No screen-recording/browser tool is available in
+   this environment. `DEMO_SCRIPT.md` is a precise, timed (90s) shot list instead,
+   built around already-real, already-settled evidence (stream 189's real instantiate/
+   finance/refusal transactions) specifically so recording it carries minimal live
+   risk — the "no mocked balances, no read-only preview as the headline, no
+   one-wallet-as-both" constraints are satisfied by construction, not by careful
+   recording technique.
+4. **Deck**: built and published as an artifact
+   (`web/notch-deck.html`) using Notch's own established design system (bone/ink/
+   oxblood/pine, Fraunces + Inter) rather than a generic template. Content grounded in
+   the PRD's own language, not invented: the problem, the "read-and-decide" vs.
+   shared-conserved-capacity wedge (quoting the PRD's competitive-hypothesis section,
+   naming only in-hackathon entries — Attestcoin Tutorial 4, CrossCredit, CreditX,
+   HashCredit — per `DECISIONS.md` D5 item 10), the real causal chain with real tx
+   hashes, the boundaries table, and receivables named explicitly as v2 direction, not
+   claimed of the demo.
+5. **Co-design question**: **not posted.** No Discord/Slack access available.
+   `CODESIGN_QUESTION.md` is a ready-to-post draft, grounded in the real Gate 1 finding
+   (D12 — a proof's continuity roots grew from 8 to 98 entries as the chain advanced
+   ~1,200 blocks over 4.5 hours, and a previously-valid proof was rejected on
+   resubmission), not a generic question.
+6. **Freeze discipline**: every sentence in the new/updated docs maps to a receipt, a
+   real tx, or a named limitation — no new features added after this point in the
+   session. Nothing committed; no `Co-Authored-By` trailer anywhere. The D39
+   GitHub-authorization discrepancy flagged in Phase 1 remains unresolved by this
+   session — still not acted on.
+
+**Final sweep:** 87/87 tests, 44/44 ledger MATCH — both unchanged through all of Gate
+9 (no ledger receipt or core/adapter/contracts code touched in Phase 2). `git status`
+clean of anything unexpected; no secrets.
+
+**Two Phase 2 items genuinely not done, not fudged:** the demo video (no recording
+tool) and the co-design post (no Discord/Slack access). Both have complete,
+ready-to-use deliverables prepared instead (`DEMO_SCRIPT.md`, `CODESIGN_QUESTION.md`)
+for the user to execute directly.
+
+Gate 9: **prepared, not fully executed** — the two items above are the honest gap.
+Nothing committed.
