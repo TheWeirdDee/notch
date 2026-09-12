@@ -1,0 +1,21 @@
+{
+  "purpose": "Gate 8 SECOND demo position -- for live interactive browser testing, untouched by the integration script",
+  "network": "ethereum-sepolia",
+  "sourceChainKey": 1,
+  "sourceContract": "0xe61cb9153356419bdaD0A8767c059f92d221a3C4",
+  "createTxHash": "0x0b3e9e6d0489c2c00abc201d78cb19b9194053b7b0dbb950cfca811ec0ed97fa",
+  "blockNumber": "11679485",
+  "streamId": "188",
+  "borrower": "0xB112f2cAdE7743833F9fbc2Fd58BD4779F9e0C03",
+  "demoAsset": "0x7d20609bdb2fa772143905d6ada079b1515db0b0",
+  "depositAmount": "100000000000000000000000",
+  "depositAmountHuman": "100000",
+  "cancelable": false,
+  "transferable": false,
+  "unlockAmountsStart": "0",
+  "unlockAmountsCliff": "0",
+  "timestampsStart": 1789099632,
+  "timestampsEnd": 1789358832,
+  "cliffTime": 1789272432,
+  "recordedAt": "2026-09-11T04:07:38.218Z"
+}
