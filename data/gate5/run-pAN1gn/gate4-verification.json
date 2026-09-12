@@ -1,0 +1,472 @@
+{
+  "outcomes": [
+    {
+      "receiptId": "01M2368TRTRFKKB6V4TTCDE23E",
+      "status": "MATCH",
+      "checks": [
+        {
+          "name": "receipt_hash",
+          "ok": true,
+          "expected": "0x809213fcba05cd4677e8ed3226b3a7d747a65ff01df00c8722a18d9ec294c1c5",
+          "actual": "0x809213fcba05cd4677e8ed3226b3a7d747a65ff01df00c8722a18d9ec294c1c5"
+        },
+        {
+          "name": "instantiate_succeeded",
+          "ok": true,
+          "expected": true,
+          "actual": true
+        },
+        {
+          "name": "claim_after",
+          "ok": true,
+          "expected": {
+            "claimId": "0x2f3515684d371770be9fa985bf14d9ced224f5c6801684c8e03d46a2a26d9137",
+            "sourceChainKey": 1,
+            "sourceTxHash": "0x9d3a408bccf1f1a6fe14fd7493dc379b064cf058956a898bf394dfb0df380cc8",
+            "sourceContract": "0xe61cb9153356419bdaD0A8767c059f92d221a3C4",
+            "streamId": "177",
+            "borrower": "0xB112f2cAdE7743833F9fbc2Fd58BD4779F9e0C03",
+            "asset": "0x7D20609BDB2fA772143905D6aDA079b1515db0b0",
+            "originalCapacity": "100000000000000000000000",
+            "financedCapacity": "0",
+            "lockedUntil": 1789547451,
+            "active": true
+          },
+          "actual": {
+            "claimId": "0x2f3515684d371770be9fa985bf14d9ced224f5c6801684c8e03d46a2a26d9137",
+            "sourceChainKey": 1,
+            "sourceTxHash": "0x9d3a408bccf1f1a6fe14fd7493dc379b064cf058956a898bf394dfb0df380cc8",
+            "sourceContract": "0xe61cb9153356419bdaD0A8767c059f92d221a3C4",
+            "streamId": "177",
+            "borrower": "0xB112f2cAdE7743833F9fbc2Fd58BD4779F9e0C03",
+            "asset": "0x7D20609BDB2fA772143905D6aDA079b1515db0b0",
+            "originalCapacity": "100000000000000000000000",
+            "financedCapacity": "0",
+            "lockedUntil": 1789547451,
+            "active": true
+          }
+        }
+      ]
+    },
+    {
+      "receiptId": "01M2368TS8D3BXHSQR2TJGQQRS",
+      "status": "MATCH",
+      "checks": [
+        {
+          "name": "receipt_hash",
+          "ok": true,
+          "expected": "0x738120c63f46647e6f8853b041f93c5f04896b8416ccf6a7cae7197d3c8ef8a6",
+          "actual": "0x738120c63f46647e6f8853b041f93c5f04896b8416ccf6a7cae7197d3c8ef8a6"
+        },
+        {
+          "name": "finance_succeeded",
+          "ok": true,
+          "expected": true,
+          "actual": true
+        },
+        {
+          "name": "claim_after",
+          "ok": true,
+          "expected": {
+            "claimId": "0x2f3515684d371770be9fa985bf14d9ced224f5c6801684c8e03d46a2a26d9137",
+            "sourceChainKey": 1,
+            "sourceTxHash": "0x9d3a408bccf1f1a6fe14fd7493dc379b064cf058956a898bf394dfb0df380cc8",
+            "sourceContract": "0xe61cb9153356419bdaD0A8767c059f92d221a3C4",
+            "streamId": "177",
+            "borrower": "0xB112f2cAdE7743833F9fbc2Fd58BD4779F9e0C03",
+            "asset": "0x7D20609BDB2fA772143905D6aDA079b1515db0b0",
+            "originalCapacity": "100000000000000000000000",
+            "financedCapacity": "70000000000000000000000",
+            "lockedUntil": 1789547451,
+            "active": true
+          },
+          "actual": {
+            "claimId": "0x2f3515684d371770be9fa985bf14d9ced224f5c6801684c8e03d46a2a26d9137",
+            "sourceChainKey": 1,
+            "sourceTxHash": "0x9d3a408bccf1f1a6fe14fd7493dc379b064cf058956a898bf394dfb0df380cc8",
+            "sourceContract": "0xe61cb9153356419bdaD0A8767c059f92d221a3C4",
+            "streamId": "177",
+            "borrower": "0xB112f2cAdE7743833F9fbc2Fd58BD4779F9e0C03",
+            "asset": "0x7D20609BDB2fA772143905D6aDA079b1515db0b0",
+            "originalCapacity": "100000000000000000000000",
+            "financedCapacity": "70000000000000000000000",
+            "lockedUntil": 1789547451,
+            "active": true
+          }
+        },
+        {
+          "name": "capacity_after",
+          "ok": true,
+          "expected": "30000000000000000000000",
+          "actual": "30000000000000000000000"
+        }
+      ]
+    },
+    {
+      "receiptId": "01M2368TSCKSJ0QTVQ15N2MNQQ",
+      "status": "MATCH",
+      "checks": [
+        {
+          "name": "receipt_hash",
+          "ok": true,
+          "expected": "0xee879623e0346332fd1df0758269615a179f03e6eb248a326637eb2a6cc52874",
+          "actual": "0xee879623e0346332fd1df0758269615a179f03e6eb248a326637eb2a6cc52874"
+        },
+        {
+          "name": "finance_refused",
+          "ok": true,
+          "expected": false,
+          "actual": false
+        },
+        {
+          "name": "reason_code",
+          "ok": true,
+          "expected": "INSUFFICIENT_CAPACITY",
+          "actual": "INSUFFICIENT_CAPACITY"
+        }
+      ]
+    },
+    {
+      "receiptId": "01M2368TSGRKYRZGK5GHRY4VPD",
+      "status": "MATCH",
+      "checks": [
+        {
+          "name": "receipt_hash",
+          "ok": true,
+          "expected": "0xeb91dfcd3cc9807fb66e9b3a62458572188ff8f0bc2a93cfb8bb46677feaf5d2",
+          "actual": "0xeb91dfcd3cc9807fb66e9b3a62458572188ff8f0bc2a93cfb8bb46677feaf5d2"
+        },
+        {
+          "name": "finance_succeeded",
+          "ok": true,
+          "expected": true,
+          "actual": true
+        },
+        {
+          "name": "claim_after",
+          "ok": true,
+          "expected": {
+            "claimId": "0x2f3515684d371770be9fa985bf14d9ced224f5c6801684c8e03d46a2a26d9137",
+            "sourceChainKey": 1,
+            "sourceTxHash": "0x9d3a408bccf1f1a6fe14fd7493dc379b064cf058956a898bf394dfb0df380cc8",
+            "sourceContract": "0xe61cb9153356419bdaD0A8767c059f92d221a3C4",
+            "streamId": "177",
+            "borrower": "0xB112f2cAdE7743833F9fbc2Fd58BD4779F9e0C03",
+            "asset": "0x7D20609BDB2fA772143905D6aDA079b1515db0b0",
+            "originalCapacity": "100000000000000000000000",
+            "financedCapacity": "75000000000000000000000",
+            "lockedUntil": 1789547451,
+            "active": true
+          },
+          "actual": {
+            "claimId": "0x2f3515684d371770be9fa985bf14d9ced224f5c6801684c8e03d46a2a26d9137",
+            "sourceChainKey": 1,
+            "sourceTxHash": "0x9d3a408bccf1f1a6fe14fd7493dc379b064cf058956a898bf394dfb0df380cc8",
+            "sourceContract": "0xe61cb9153356419bdaD0A8767c059f92d221a3C4",
+            "streamId": "177",
+            "borrower": "0xB112f2cAdE7743833F9fbc2Fd58BD4779F9e0C03",
+            "asset": "0x7D20609BDB2fA772143905D6aDA079b1515db0b0",
+            "originalCapacity": "100000000000000000000000",
+            "financedCapacity": "75000000000000000000000",
+            "lockedUntil": 1789547451,
+            "active": true
+          }
+        },
+        {
+          "name": "capacity_after",
+          "ok": true,
+          "expected": "25000000000000000000000",
+          "actual": "25000000000000000000000"
+        }
+      ]
+    },
+    {
+      "receiptId": "01M2368WNETY2ACETQ1BCFEHKB",
+      "status": "MATCH",
+      "checks": [
+        {
+          "name": "receipt_hash",
+          "ok": true,
+          "expected": "0x4c5e3473c58a06443398cfbb2ac73429f5217b63f78aba5d3b43c1dc86087db0",
+          "actual": "0x4c5e3473c58a06443398cfbb2ac73429f5217b63f78aba5d3b43c1dc86087db0"
+        },
+        {
+          "name": "instantiate_refused",
+          "ok": true,
+          "expected": false,
+          "actual": false
+        },
+        {
+          "name": "reason_code",
+          "ok": true,
+          "expected": "PROOF_NOT_VERIFIED",
+          "actual": "PROOF_NOT_VERIFIED"
+        }
+      ]
+    },
+    {
+      "receiptId": "01M2368YY71GA5P8ZZEM621SVC",
+      "status": "MATCH",
+      "checks": [
+        {
+          "name": "receipt_hash",
+          "ok": true,
+          "expected": "0x8c367eae9b16d4a37320d1ed6e63828b57124a808152c3945173ded635949e0a",
+          "actual": "0x8c367eae9b16d4a37320d1ed6e63828b57124a808152c3945173ded635949e0a"
+        },
+        {
+          "name": "instantiate_refused",
+          "ok": true,
+          "expected": false,
+          "actual": false
+        },
+        {
+          "name": "reason_code",
+          "ok": true,
+          "expected": "CANCELABLE_NOT_ALLOWED",
+          "actual": "CANCELABLE_NOT_ALLOWED"
+        }
+      ]
+    },
+    {
+      "receiptId": "01M2368YYGJ1GE3M3BVHDH4REK",
+      "status": "MATCH",
+      "checks": [
+        {
+          "name": "receipt_hash",
+          "ok": true,
+          "expected": "0xfafa7629720bba98e032aedc96e2125069585ded4bf010616da6f04fe12c5190",
+          "actual": "0xfafa7629720bba98e032aedc96e2125069585ded4bf010616da6f04fe12c5190"
+        },
+        {
+          "name": "finance_succeeded",
+          "ok": true,
+          "expected": true,
+          "actual": true
+        },
+        {
+          "name": "claim_after",
+          "ok": true,
+          "expected": {
+            "claimId": "0x2f3515684d371770be9fa985bf14d9ced224f5c6801684c8e03d46a2a26d9137",
+            "sourceChainKey": 1,
+            "sourceTxHash": "0x9d3a408bccf1f1a6fe14fd7493dc379b064cf058956a898bf394dfb0df380cc8",
+            "sourceContract": "0xe61cb9153356419bdaD0A8767c059f92d221a3C4",
+            "streamId": "177",
+            "borrower": "0xB112f2cAdE7743833F9fbc2Fd58BD4779F9e0C03",
+            "asset": "0x7D20609BDB2fA772143905D6aDA079b1515db0b0",
+            "originalCapacity": "100000000000000000000000",
+            "financedCapacity": "85000000000000000000000",
+            "lockedUntil": 1789547451,
+            "active": true
+          },
+          "actual": {
+            "claimId": "0x2f3515684d371770be9fa985bf14d9ced224f5c6801684c8e03d46a2a26d9137",
+            "sourceChainKey": 1,
+            "sourceTxHash": "0x9d3a408bccf1f1a6fe14fd7493dc379b064cf058956a898bf394dfb0df380cc8",
+            "sourceContract": "0xe61cb9153356419bdaD0A8767c059f92d221a3C4",
+            "streamId": "177",
+            "borrower": "0xB112f2cAdE7743833F9fbc2Fd58BD4779F9e0C03",
+            "asset": "0x7D20609BDB2fA772143905D6aDA079b1515db0b0",
+            "originalCapacity": "100000000000000000000000",
+            "financedCapacity": "85000000000000000000000",
+            "lockedUntil": 1789547451,
+            "active": true
+          }
+        },
+        {
+          "name": "capacity_after",
+          "ok": true,
+          "expected": "15000000000000000000000",
+          "actual": "15000000000000000000000"
+        }
+      ]
+    },
+    {
+      "receiptId": "01M2368YYZTAQNRQM959BVSB2Q",
+      "status": "MATCH",
+      "checks": [
+        {
+          "name": "receipt_hash",
+          "ok": true,
+          "expected": "0x8d6113c4ae4278aa1f5a7b609509a1a22ec5c197a7885d1a972baf69a5ce20a1",
+          "actual": "0x8d6113c4ae4278aa1f5a7b609509a1a22ec5c197a7885d1a972baf69a5ce20a1"
+        },
+        {
+          "name": "finance_succeeded",
+          "ok": true,
+          "expected": true,
+          "actual": true
+        },
+        {
+          "name": "claim_after",
+          "ok": true,
+          "expected": {
+            "claimId": "0x2f3515684d371770be9fa985bf14d9ced224f5c6801684c8e03d46a2a26d9137",
+            "sourceChainKey": 1,
+            "sourceTxHash": "0x9d3a408bccf1f1a6fe14fd7493dc379b064cf058956a898bf394dfb0df380cc8",
+            "sourceContract": "0xe61cb9153356419bdaD0A8767c059f92d221a3C4",
+            "streamId": "177",
+            "borrower": "0xB112f2cAdE7743833F9fbc2Fd58BD4779F9e0C03",
+            "asset": "0x7D20609BDB2fA772143905D6aDA079b1515db0b0",
+            "originalCapacity": "100000000000000000000000",
+            "financedCapacity": "95000000000000000000000",
+            "lockedUntil": 1789547451,
+            "active": true
+          },
+          "actual": {
+            "claimId": "0x2f3515684d371770be9fa985bf14d9ced224f5c6801684c8e03d46a2a26d9137",
+            "sourceChainKey": 1,
+            "sourceTxHash": "0x9d3a408bccf1f1a6fe14fd7493dc379b064cf058956a898bf394dfb0df380cc8",
+            "sourceContract": "0xe61cb9153356419bdaD0A8767c059f92d221a3C4",
+            "streamId": "177",
+            "borrower": "0xB112f2cAdE7743833F9fbc2Fd58BD4779F9e0C03",
+            "asset": "0x7D20609BDB2fA772143905D6aDA079b1515db0b0",
+            "originalCapacity": "100000000000000000000000",
+            "financedCapacity": "95000000000000000000000",
+            "lockedUntil": 1789547451,
+            "active": true
+          }
+        },
+        {
+          "name": "capacity_after",
+          "ok": true,
+          "expected": "5000000000000000000000",
+          "actual": "5000000000000000000000"
+        }
+      ]
+    },
+    {
+      "receiptId": "01M2368YZ5Q6SNWMNSCF79WNHR",
+      "status": "MATCH",
+      "checks": [
+        {
+          "name": "receipt_hash",
+          "ok": true,
+          "expected": "0xcb6b8333caf9acf37247c41e53a16d2fbea9f3e12f1e68b3bf15100ec3ba5fbe",
+          "actual": "0xcb6b8333caf9acf37247c41e53a16d2fbea9f3e12f1e68b3bf15100ec3ba5fbe"
+        },
+        {
+          "name": "finance_succeeded",
+          "ok": true,
+          "expected": true,
+          "actual": true
+        },
+        {
+          "name": "claim_after",
+          "ok": true,
+          "expected": {
+            "claimId": "0x2f3515684d371770be9fa985bf14d9ced224f5c6801684c8e03d46a2a26d9137",
+            "sourceChainKey": 1,
+            "sourceTxHash": "0x9d3a408bccf1f1a6fe14fd7493dc379b064cf058956a898bf394dfb0df380cc8",
+            "sourceContract": "0xe61cb9153356419bdaD0A8767c059f92d221a3C4",
+            "streamId": "177",
+            "borrower": "0xB112f2cAdE7743833F9fbc2Fd58BD4779F9e0C03",
+            "asset": "0x7D20609BDB2fA772143905D6aDA079b1515db0b0",
+            "originalCapacity": "100000000000000000000000",
+            "financedCapacity": "100000000000000000000000",
+            "lockedUntil": 1789547451,
+            "active": true
+          },
+          "actual": {
+            "claimId": "0x2f3515684d371770be9fa985bf14d9ced224f5c6801684c8e03d46a2a26d9137",
+            "sourceChainKey": 1,
+            "sourceTxHash": "0x9d3a408bccf1f1a6fe14fd7493dc379b064cf058956a898bf394dfb0df380cc8",
+            "sourceContract": "0xe61cb9153356419bdaD0A8767c059f92d221a3C4",
+            "streamId": "177",
+            "borrower": "0xB112f2cAdE7743833F9fbc2Fd58BD4779F9e0C03",
+            "asset": "0x7D20609BDB2fA772143905D6aDA079b1515db0b0",
+            "originalCapacity": "100000000000000000000000",
+            "financedCapacity": "100000000000000000000000",
+            "lockedUntil": 1789547451,
+            "active": true
+          }
+        },
+        {
+          "name": "capacity_after",
+          "ok": true,
+          "expected": "0",
+          "actual": "0"
+        }
+      ]
+    },
+    {
+      "receiptId": "01M2368YZA39G9CW4Z0RBZBD4N",
+      "status": "MATCH",
+      "checks": [
+        {
+          "name": "receipt_hash",
+          "ok": true,
+          "expected": "0x1950755b98e9d6c598629dcd24d734926679cc5d21e6fa77357b3868400446a4",
+          "actual": "0x1950755b98e9d6c598629dcd24d734926679cc5d21e6fa77357b3868400446a4"
+        },
+        {
+          "name": "finance_refused",
+          "ok": true,
+          "expected": false,
+          "actual": false
+        },
+        {
+          "name": "reason_code",
+          "ok": true,
+          "expected": "INSUFFICIENT_CAPACITY",
+          "actual": "INSUFFICIENT_CAPACITY"
+        }
+      ]
+    }
+  ],
+  "drift": {
+    "receiptId": "01M2368TS8D3BXHSQR2TJGQQRS",
+    "status": "DRIFT",
+    "checks": [
+      {
+        "name": "receipt_hash",
+        "ok": false,
+        "expected": "0x738120c63f46647e6f8853b041f93c5f04896b8416ccf6a7cae7197d3c8ef8a6",
+        "actual": "0x7b949ae27f47a579db25204d54b5cd34a8b5634efe3584c74729f2aa505ffca3"
+      },
+      {
+        "name": "finance_succeeded",
+        "ok": true,
+        "expected": true,
+        "actual": true
+      },
+      {
+        "name": "claim_after",
+        "ok": false,
+        "expected": {
+          "claimId": "0x2f3515684d371770be9fa985bf14d9ced224f5c6801684c8e03d46a2a26d9137",
+          "sourceChainKey": 1,
+          "sourceTxHash": "0x9d3a408bccf1f1a6fe14fd7493dc379b064cf058956a898bf394dfb0df380cc8",
+          "sourceContract": "0xe61cb9153356419bdaD0A8767c059f92d221a3C4",
+          "streamId": "177",
+          "borrower": "0xB112f2cAdE7743833F9fbc2Fd58BD4779F9e0C03",
+          "asset": "0x7D20609BDB2fA772143905D6aDA079b1515db0b0",
+          "originalCapacity": "100000000000000000000000",
+          "financedCapacity": "999",
+          "lockedUntil": 1789547451,
+          "active": true
+        },
+        "actual": {
+          "claimId": "0x2f3515684d371770be9fa985bf14d9ced224f5c6801684c8e03d46a2a26d9137",
+          "sourceChainKey": 1,
+          "sourceTxHash": "0x9d3a408bccf1f1a6fe14fd7493dc379b064cf058956a898bf394dfb0df380cc8",
+          "sourceContract": "0xe61cb9153356419bdaD0A8767c059f92d221a3C4",
+          "streamId": "177",
+          "borrower": "0xB112f2cAdE7743833F9fbc2Fd58BD4779F9e0C03",
+          "asset": "0x7D20609BDB2fA772143905D6aDA079b1515db0b0",
+          "originalCapacity": "100000000000000000000000",
+          "financedCapacity": "70000000000000000000000",
+          "lockedUntil": 1789547451,
+          "active": true
+        }
+      },
+      {
+        "name": "capacity_after",
+        "ok": true,
+        "expected": "30000000000000000000000",
+        "actual": "30000000000000000000000"
+      }
+    ]
+  }
+}
