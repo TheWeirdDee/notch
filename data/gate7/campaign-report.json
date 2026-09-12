@@ -1,0 +1,553 @@
+{
+  "frozenSetHash": "0x1f5f083822412180b5c05cec0438c5125d2ac42011c10f11644f4cf4170ba75c",
+  "generatedAt": "2026-09-10T08:41:32.172Z",
+  "positions": [
+    {
+      "positionIndex": 1,
+      "streamId": "181",
+      "claimId": "0x5987d6e108a3a5dd6afc644f0a6e524743b7a1ca753650241c412d9a8ab7df2c",
+      "capacity": "500000000000000000000",
+      "instantiateReceiptId": "01M257ETS6REXX72E6DFR70QDE",
+      "instantiateTx": "0xd6ee1fb78cc879e2de08aaa0473b95f21d862007f834920de77fd2cb8a9e220c",
+      "full": [
+        {
+          "step": 1,
+          "lender": "A",
+          "amount": "350000000000000000000",
+          "outcome": "REFUSED",
+          "receiptId": null,
+          "voided": "01M257EY23VV6KJFHSNBEMK8KD",
+          "trueOnChainReason": "ActionAlreadyApplied",
+          "note": "Receipt voided: the campaign script hardcoded reason_code=INSUFFICIENT_CAPACITY for every refusal without checking. This attempt's actionKey (a small sequential integer) collided with one Gate 6 had already used for Lender A on this same venue -- see DECISIONS.md D27. Not a capacity outcome; preserved in data/gate7/void-receipts/."
+        },
+        {
+          "step": 2,
+          "lender": "B",
+          "amount": "300000000000000000000",
+          "outcome": "SUCCEEDED",
+          "receiptId": "01M257FEAD2AQED88D059XG651",
+          "tx": "0x49f695071aa39552493c640d8fa26ce75ec927fcf94478b541d95439cb05d7d4"
+        },
+        {
+          "step": 3,
+          "lender": "C",
+          "amount": "250000000000000000000",
+          "outcome": "REFUSED",
+          "receiptId": "01M257FHH146426T7WNHCK1YCS"
+        },
+        {
+          "step": 4,
+          "lender": "A",
+          "amount": "350000000000000000000",
+          "outcome": "REFUSED",
+          "receiptId": "01M257FN79AW89A9T1878MZDE4"
+        }
+      ],
+      "replayAttemptOutcome": "REFUSED",
+      "replayReceiptId": "01M257FRG79EAANK4WYVWCTGTQ",
+      "no_conservation": {
+        "steps": [
+          {
+            "step": 1,
+            "lender": "A",
+            "amount": "350000000000000000000",
+            "outcome": "SUCCEEDED"
+          },
+          {
+            "step": 2,
+            "lender": "B",
+            "amount": "300000000000000000000",
+            "outcome": "SUCCEEDED"
+          },
+          {
+            "step": 3,
+            "lender": "C",
+            "amount": "250000000000000000000",
+            "outcome": "SUCCEEDED"
+          },
+          {
+            "step": 4,
+            "lender": "A",
+            "amount": "350000000000000000000",
+            "outcome": "REFUSED (per-lender ceiling)"
+          }
+        ],
+        "totalFinanced": "900000000000000000000"
+      },
+      "single_lender_guard": {
+        "steps": [
+          {
+            "step": 1,
+            "lender": "A",
+            "amount": "350000000000000000000",
+            "outcome": "SUCCEEDED"
+          },
+          {
+            "step": 2,
+            "lender": "B",
+            "amount": "300000000000000000000",
+            "outcome": "SUCCEEDED"
+          },
+          {
+            "step": 3,
+            "lender": "C",
+            "amount": "250000000000000000000",
+            "outcome": "SUCCEEDED"
+          },
+          {
+            "step": 4,
+            "lender": "A",
+            "amount": "350000000000000000000",
+            "outcome": "SUCCEEDED"
+          }
+        ],
+        "totalFinanced": "1250000000000000000000"
+      },
+      "overFinancingPrevented": "400000000000000000000"
+    },
+    {
+      "positionIndex": 2,
+      "streamId": "182",
+      "claimId": "0x9993400f60b5e6d776dc46ce9962cbf933f1905ba08395c6415a7c062c14d0e8",
+      "capacity": "800000000000000000000",
+      "instantiateReceiptId": "01M257GARWZPQH8JTHFE5MTCZ2",
+      "instantiateTx": "0x5b5f2280b3c23b0d88594887a630f8031c640a9550ceec79d4f6f5c7a4f66b8f",
+      "full": [
+        {
+          "step": 1,
+          "lender": "A",
+          "amount": "560000000000000000000",
+          "outcome": "SUCCEEDED",
+          "receiptId": "01M257GTWJC8C8DFTG5CXAXET9",
+          "tx": "0x83121f6049e95e6be4ba258f74286383c684e8b4a376de8d19d00bc9b7075dfc"
+        },
+        {
+          "step": 2,
+          "lender": "B",
+          "amount": "480000000000000000000",
+          "outcome": "REFUSED",
+          "receiptId": "01M257GYDNXZSVZ1TQQR8RAXFX"
+        },
+        {
+          "step": 3,
+          "lender": "C",
+          "amount": "400000000000000000000",
+          "outcome": "REFUSED",
+          "receiptId": "01M257H2447HZHM6VEDJR7PA8V"
+        },
+        {
+          "step": 4,
+          "lender": "A",
+          "amount": "560000000000000000000",
+          "outcome": "REFUSED",
+          "receiptId": "01M257H5Q8733ZJ6YJY1TFPYEC"
+        }
+      ],
+      "replayAttemptOutcome": "REFUSED",
+      "replayReceiptId": "01M257H7Y7PERZP18A4ATSG3DH",
+      "no_conservation": {
+        "steps": [
+          {
+            "step": 1,
+            "lender": "A",
+            "amount": "560000000000000000000",
+            "outcome": "SUCCEEDED"
+          },
+          {
+            "step": 2,
+            "lender": "B",
+            "amount": "480000000000000000000",
+            "outcome": "SUCCEEDED"
+          },
+          {
+            "step": 3,
+            "lender": "C",
+            "amount": "400000000000000000000",
+            "outcome": "SUCCEEDED"
+          },
+          {
+            "step": 4,
+            "lender": "A",
+            "amount": "560000000000000000000",
+            "outcome": "REFUSED (per-lender ceiling)"
+          }
+        ],
+        "totalFinanced": "1440000000000000000000"
+      },
+      "single_lender_guard": {
+        "steps": [
+          {
+            "step": 1,
+            "lender": "A",
+            "amount": "560000000000000000000",
+            "outcome": "SUCCEEDED"
+          },
+          {
+            "step": 2,
+            "lender": "B",
+            "amount": "480000000000000000000",
+            "outcome": "SUCCEEDED"
+          },
+          {
+            "step": 3,
+            "lender": "C",
+            "amount": "400000000000000000000",
+            "outcome": "SUCCEEDED"
+          },
+          {
+            "step": 4,
+            "lender": "A",
+            "amount": "560000000000000000000",
+            "outcome": "SUCCEEDED"
+          }
+        ],
+        "totalFinanced": "2000000000000000000000"
+      },
+      "overFinancingPrevented": "640000000000000000000"
+    },
+    {
+      "positionIndex": 3,
+      "streamId": "183",
+      "claimId": "0xdf489ff6ad236c24c498699c5d990376f4556e5c495abfc1172eadc73aba8c5c",
+      "capacity": "1200000000000000000000",
+      "instantiateReceiptId": "01M257HQA31WQGXDG4S1ZSDH20",
+      "instantiateTx": "0x23ad740329d873a3b909c0e0c8421049eb94db8bfa28a20a2ce5a34300785940",
+      "full": [
+        {
+          "step": 1,
+          "lender": "A",
+          "amount": "840000000000000000000",
+          "outcome": "REFUSED",
+          "receiptId": null,
+          "voided": "01M257HV21GFPJJBR5H36YSSM6",
+          "trueOnChainReason": "MockUSDC: allowance",
+          "note": "Receipt voided: real capacity was sufficient (840 <= 1200 available) but Lender A's ccUSD allowance to the venue ran out mid-campaign (started at 1000, consumed by two earlier real successes) -- an ERC20 shortfall, not a capacity refusal. See DECISIONS.md D27. Preserved in data/gate7/void-receipts/."
+        },
+        {
+          "step": 2,
+          "lender": "B",
+          "amount": "720000000000000000000",
+          "outcome": "SUCCEEDED",
+          "receiptId": "01M257J79XKMJVHW297MM9HYNY",
+          "tx": "0x38153a48088a77f5d30ec3a34ede9e59b1d84486ff2c153df777dd84d01a07b7"
+        },
+        {
+          "step": 3,
+          "lender": "C",
+          "amount": "600000000000000000000",
+          "outcome": "REFUSED",
+          "receiptId": "01M257JAQ8KB9H6F49BQN9MR4T"
+        },
+        {
+          "step": 4,
+          "lender": "A",
+          "amount": "840000000000000000000",
+          "outcome": "REFUSED",
+          "receiptId": "01M257JFNJ91NX7SGV28EHHWYD"
+        }
+      ],
+      "replayAttemptOutcome": "REFUSED",
+      "replayReceiptId": "01M257JHQAD7QBQHK6TVA3V840",
+      "no_conservation": {
+        "steps": [
+          {
+            "step": 1,
+            "lender": "A",
+            "amount": "840000000000000000000",
+            "outcome": "SUCCEEDED"
+          },
+          {
+            "step": 2,
+            "lender": "B",
+            "amount": "720000000000000000000",
+            "outcome": "SUCCEEDED"
+          },
+          {
+            "step": 3,
+            "lender": "C",
+            "amount": "600000000000000000000",
+            "outcome": "SUCCEEDED"
+          },
+          {
+            "step": 4,
+            "lender": "A",
+            "amount": "840000000000000000000",
+            "outcome": "REFUSED (per-lender ceiling)"
+          }
+        ],
+        "totalFinanced": "2160000000000000000000"
+      },
+      "single_lender_guard": {
+        "steps": [
+          {
+            "step": 1,
+            "lender": "A",
+            "amount": "840000000000000000000",
+            "outcome": "SUCCEEDED"
+          },
+          {
+            "step": 2,
+            "lender": "B",
+            "amount": "720000000000000000000",
+            "outcome": "SUCCEEDED"
+          },
+          {
+            "step": 3,
+            "lender": "C",
+            "amount": "600000000000000000000",
+            "outcome": "SUCCEEDED"
+          },
+          {
+            "step": 4,
+            "lender": "A",
+            "amount": "840000000000000000000",
+            "outcome": "SUCCEEDED"
+          }
+        ],
+        "totalFinanced": "3000000000000000000000"
+      },
+      "overFinancingPrevented": "960000000000000000000"
+    },
+    {
+      "positionIndex": 4,
+      "streamId": "184",
+      "claimId": "0x9e9ff742573b8597bf949f62bb267019ea2ec111bc4935bd2cbbe9c03b16d59a",
+      "capacity": "600000000000000000000",
+      "instantiateReceiptId": "01M257K28XX671CEQCPDK4CGJ5",
+      "instantiateTx": "0xabbc4e73a532580701112ee6278ee05364ef1835a95da641768194a7bb2056df",
+      "full": [
+        {
+          "step": 1,
+          "lender": "A",
+          "amount": "420000000000000000000",
+          "outcome": "SUCCEEDED",
+          "receiptId": "01M257KJ12KY9FT2G8NCRTV22A",
+          "tx": "0xff0473aebc0528f54c7aff54c17421de06554a84a9d7f8a25ad0fb3bfce93367"
+        },
+        {
+          "step": 2,
+          "lender": "B",
+          "amount": "360000000000000000000",
+          "outcome": "REFUSED",
+          "receiptId": "01M257KNCZN75ZE7WYQ82704SA"
+        },
+        {
+          "step": 3,
+          "lender": "C",
+          "amount": "300000000000000000000",
+          "outcome": "REFUSED",
+          "receiptId": "01M257KSBARHX329AHR37Y2MC9"
+        },
+        {
+          "step": 4,
+          "lender": "A",
+          "amount": "420000000000000000000",
+          "outcome": "REFUSED",
+          "receiptId": "01M257KWM05R05VVGRWMBH8RPW"
+        }
+      ],
+      "replayAttemptOutcome": "REFUSED",
+      "replayReceiptId": "01M257KYGS63C9PJDJN7YD7P3W",
+      "no_conservation": {
+        "steps": [
+          {
+            "step": 1,
+            "lender": "A",
+            "amount": "420000000000000000000",
+            "outcome": "SUCCEEDED"
+          },
+          {
+            "step": 2,
+            "lender": "B",
+            "amount": "360000000000000000000",
+            "outcome": "SUCCEEDED"
+          },
+          {
+            "step": 3,
+            "lender": "C",
+            "amount": "300000000000000000000",
+            "outcome": "SUCCEEDED"
+          },
+          {
+            "step": 4,
+            "lender": "A",
+            "amount": "420000000000000000000",
+            "outcome": "REFUSED (per-lender ceiling)"
+          }
+        ],
+        "totalFinanced": "1080000000000000000000"
+      },
+      "single_lender_guard": {
+        "steps": [
+          {
+            "step": 1,
+            "lender": "A",
+            "amount": "420000000000000000000",
+            "outcome": "SUCCEEDED"
+          },
+          {
+            "step": 2,
+            "lender": "B",
+            "amount": "360000000000000000000",
+            "outcome": "SUCCEEDED"
+          },
+          {
+            "step": 3,
+            "lender": "C",
+            "amount": "300000000000000000000",
+            "outcome": "SUCCEEDED"
+          },
+          {
+            "step": 4,
+            "lender": "A",
+            "amount": "420000000000000000000",
+            "outcome": "SUCCEEDED"
+          }
+        ],
+        "totalFinanced": "1500000000000000000000"
+      },
+      "overFinancingPrevented": "480000000000000000000"
+    },
+    {
+      "positionIndex": 5,
+      "streamId": "185",
+      "claimId": "0xc2c30f2f66398f71b4b1791947f979f5fd685db19841108f697f9455f9483501",
+      "capacity": "1000000000000000000000",
+      "instantiateReceiptId": "01M257MF9DEAVDM0240WW2QYF2",
+      "instantiateTx": "0x50f5bc1effc29bd023458f26efd565fade629a7567a181c81d54f5477498e507",
+      "full": [
+        {
+          "step": 1,
+          "lender": "A",
+          "amount": "700000000000000000000",
+          "outcome": "REFUSED",
+          "receiptId": null,
+          "voided": "01M257MK41D2EABBQNNWPFPWMV",
+          "trueOnChainReason": "MockUSDC: allowance",
+          "note": "Receipt voided: real capacity was sufficient (700 <= 1000 available) but Lender A's ccUSD allowance to the venue had run out by this point in the campaign. Same root cause as position-3 step1. See DECISIONS.md D27. Preserved in data/gate7/void-receipts/."
+        },
+        {
+          "step": 2,
+          "lender": "B",
+          "amount": "600000000000000000000",
+          "outcome": "SUCCEEDED",
+          "receiptId": "01M257MYDK9HCNX72R69Y9YPWF",
+          "tx": "0x4acaaec0932d12fbc421a87d8f1243b3182f37d87e041a0725233e64d49e775e"
+        },
+        {
+          "step": 3,
+          "lender": "C",
+          "amount": "500000000000000000000",
+          "outcome": "REFUSED",
+          "receiptId": "01M257N278FXSMBF8P9WZTY1GW"
+        },
+        {
+          "step": 4,
+          "lender": "A",
+          "amount": "700000000000000000000",
+          "outcome": "REFUSED",
+          "receiptId": "01M257N5DPW26H8M6V44MSVHJ6"
+        }
+      ],
+      "replayAttemptOutcome": "REFUSED",
+      "replayReceiptId": "01M257N7P6MYEKP6C1S693MWD7",
+      "no_conservation": {
+        "steps": [
+          {
+            "step": 1,
+            "lender": "A",
+            "amount": "700000000000000000000",
+            "outcome": "SUCCEEDED"
+          },
+          {
+            "step": 2,
+            "lender": "B",
+            "amount": "600000000000000000000",
+            "outcome": "SUCCEEDED"
+          },
+          {
+            "step": 3,
+            "lender": "C",
+            "amount": "500000000000000000000",
+            "outcome": "SUCCEEDED"
+          },
+          {
+            "step": 4,
+            "lender": "A",
+            "amount": "700000000000000000000",
+            "outcome": "REFUSED (per-lender ceiling)"
+          }
+        ],
+        "totalFinanced": "1800000000000000000000"
+      },
+      "single_lender_guard": {
+        "steps": [
+          {
+            "step": 1,
+            "lender": "A",
+            "amount": "700000000000000000000",
+            "outcome": "SUCCEEDED"
+          },
+          {
+            "step": 2,
+            "lender": "B",
+            "amount": "600000000000000000000",
+            "outcome": "SUCCEEDED"
+          },
+          {
+            "step": 3,
+            "lender": "C",
+            "amount": "500000000000000000000",
+            "outcome": "SUCCEEDED"
+          },
+          {
+            "step": 4,
+            "lender": "A",
+            "amount": "700000000000000000000",
+            "outcome": "SUCCEEDED"
+          }
+        ],
+        "totalFinanced": "2500000000000000000000"
+      },
+      "overFinancingPrevented": "800000000000000000000"
+    }
+  ],
+  "fakeSourceAttempt": {
+    "onChainReason": "CancelableNotAllowed",
+    "receiptId": "01M257NCQ9WCNQE48HF7DCJQDJ"
+  },
+  "userSuppliedAmountAblation": {
+    "realDeposit": "500000000000000000000",
+    "typedLie": "1507000000000000000000",
+    "disagree": true,
+    "instantiateClaimParams": [
+      "chainKey",
+      "headerNumber",
+      "txBytes",
+      "realSourceTxHash",
+      "requestedStreamId",
+      "merkleRoot",
+      "siblings",
+      "lowerEndpointDigest",
+      "continuityRoots"
+    ],
+    "hasAmountParam": false
+  },
+  "headline": {
+    "totalOverFinancingPreventedHuman": "3280",
+    "totalOverFinancingPreventedRaw": "3280000000000000000000",
+    "denominator": "5 positions, 4 draw steps each, 3 lenders",
+    "note": "Computed entirely from the pure local no_conservation/single_lender_guard simulations over the real decoded capacities and the fixed draw plan -- unaffected by the 3 voided full-ablation receipts below, since those simulations never read on-chain outcomes."
+  },
+  "correctedFindings": {
+    "summary": "3 of the 20 real finance() attempts under the full ablation were originally receipted with reason_code=INSUFFICIENT_CAPACITY by a campaign-script bug that hardcoded that reason for every refusal without checking the true on-chain revert. Diagnosed post-hoc via scripts/diagnose-gate7-refusals.mjs (historical-block simulateContract replay of each exact call). All 3 voided per RULES.md B31 (a receipt's reason_code must be reproducible by the reference model; ActionAlreadyApplied and an ERC20 allowance shortfall are not in its vocabulary). See DECISIONS.md D27.",
+    "voided": [
+      { "position": 1, "step": 1, "receiptId": "01M257EY23VV6KJFHSNBEMK8KD", "trueReason": "ActionAlreadyApplied" },
+      { "position": 3, "step": 1, "receiptId": "01M257HV21GFPJJBR5H36YSSM6", "trueReason": "MockUSDC: allowance" },
+      { "position": 5, "step": 1, "receiptId": "01M257MK41D2EABBQNNWPFPWMV", "trueReason": "MockUSDC: allowance" }
+    ],
+    "remaining12RefusedFinanceReceiptsConfirmedGenuine": "The other 12 REFUSED finance receipts (all reason_code=INSUFFICIENT_CAPACITY) were independently re-simulated at their exact historical block and confirmed to decode as the registry's real InsufficientFinancingCapacity() revert -- the hardcoded label happened to be correct for those.",
+    "activeReceiptCountAfterVoiding": 28,
+    "passBarNote": "28 >= the 20-receipted-run minimum even after voiding; no retry was needed to clear the pass bar."
+  }
+}
