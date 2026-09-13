@@ -23,7 +23,8 @@ unset on Vercel so Next.js uses `.next`.
 ## Runtime limits
 
 The app depends on public Sepolia/CC3 RPC and ProofBuilder availability. Failed reads
-are shown as unavailable; there is no snapshot fallback. The preloaded stream's lock
-expires September 12, 2026 at 11:16:50 UTC. After expiry, its historical position and
-mined evidence remain readable, but fresh activation checks and new financing refuse
-it. Replacing the source requires a separately authorized on-chain action.
+are shown as unavailable; there is no snapshot fallback. The preloaded stream is
+Sablier #189 (`web/src/lib/demo.ts`); its lock expires October 12, 2026 at 15:32:19
+UTC. After expiry, its historical position and mined evidence remain readable, but
+fresh activation checks and new financing refuse it. Replacing the source requires a
+separately authorized on-chain action.
