@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "description": "Notch reference model: capacity decode and conservation. Deterministic, no network.",
+  "license": "MIT",
   "type": "module",
   "main": "./src/index.ts",
   "types": "./src/index.ts",
