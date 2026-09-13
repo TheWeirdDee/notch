@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.1.0",
   "type": "module",
+  "license": "MIT",
   "description": "Notch — a conservation layer for cross-chain cashflow-backed lending on Creditcoin.",
   "workspaces": [
     "core",
