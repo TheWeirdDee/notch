@@ -4,6 +4,7 @@
   "version": "0.2.0",
   "type": "module",
   "description": "ProofBuilder HTTP client (fetch), precompile calls (viem), proof assembly, and the append-only ledger. No SDK, no ethers.",
+  "license": "MIT",
   "main": "./src/index.ts",
   "types": "./src/index.ts",
   "scripts": {
