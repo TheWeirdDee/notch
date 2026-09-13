@@ -1,5 +1,8 @@
 ﻿# Deploying the web app to Vercel
 
+**Live:** https://notch-web-sooty.vercel.app/ — deployed with zero environment
+variables set, confirming the claim below.
+
 - Import `TheWeirdDee/notch` and select branch `main`.
 - Framework preset: **Next.js**.
 - Root Directory: **web**.
