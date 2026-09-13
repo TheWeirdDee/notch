@@ -1057,3 +1057,41 @@ D45.
 Post-fix sweep: `tsc --noEmit` clean, `eslint .` clean, isolated
 `NOTCH_NEXT_DIR=.next-publish next build --webpack` clean (6 routes). Full regression:
 87/87 unchanged. Ledger: 44/44 MATCH, unchanged. Nothing committed.
+
+## Wallet-connect fix, proof-trail gaps closed, whitepaper PDF rendered (2026-09-13)
+
+Full account: `DECISIONS.md` D47.
+
+- **Fixed:** the live-deployed nav bar's wallet-connect button could hang on
+  "Connecting…" forever (reported live on Vercel, with a screenshot). No timeout
+  existed around the connect call. Now races `connectAsync` against a 20s timeout with
+  its own local state — always recovers, always states why.
+- **Closed, verified live before being called closed:**
+  1. Real activation tx (`instantiateClaim()`, block 5,475,774) added to `DEMO` and
+     surfaced on `/verify` and `/position` — it existed in the docs the whole time but
+     was never linked in the app itself.
+  2. Before/after `available()` proof for the 70,000 finance tx, read live at blocks
+     5,475,774 (100,000) and 5,475,775 (30,000) — proves the transaction caused the
+     change, not just that both numbers separately exist.
+  3. The mined refusal's raw revert selector (`0xa3388671`) now shown alongside its
+     decoded signature (`InsufficientFinancingCapacity()`), independently
+     recomputable. (Caught and corrected a self-made error while doing this: a first
+     selector computation via `toFunctionSelector('error ...()')` was wrong —
+     `0x7bacac4b` — corrected via raw `keccak256`, which matched the chain's real
+     `0xa3388671` exactly.)
+- **Gate 9's deferred PDF-export item, now actually done.** `web/notch-deck.html`
+  (published earlier as a Claude Artifact) still needed a human to export it to PDF
+  and upload it somewhere — that never happened. Built a real whitepaper instead:
+  `docs/whitepaper.html` → `NOTCH_WHITEPAPER.pdf` (repo root), rendered via
+  `web/scripts/render-whitepaper.mjs` driving a locally installed Chrome through
+  `playwright-core` (already a `web/` devDependency — no browser download, no new
+  package). Reviewed page-by-page as rendered PNGs before being trusted. Committed to
+  the repo, so its URL is permanent
+  (`raw.githubusercontent.com/TheWeirdDee/notch/main/NOTCH_WHITEPAPER.pdf`) without
+  needing IPFS or Google Drive.
+
+Full regression: 87/87 tests, 44/44 ledger MATCH, `deployment-check` MATCH, `tsc
+--noEmit` and `eslint .` clean. A transient 3-test flake under concurrent
+headless-Chrome load during one mid-fix run did not repeat once re-run in isolation —
+resource contention, not a regression (see D47 for detail). Notch's own contracts:
+untouched, not redeployed.
