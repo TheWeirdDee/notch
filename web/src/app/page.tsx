@@ -1,10 +1,16 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import { ScanLine, Landmark, ShieldCheck, Users, Layers } from "lucide-react";
 import { DEMO } from "@/lib/demo";
 import { PositionMetrics } from "@/components/position-metrics";
 import { FAQ } from "@/components/faq";
 import { SmoothScroll } from "@/components/smooth-scroll";
 import { SEPOLIA_EXPLORER_TX, REGISTRY_ADDRESS } from "@/lib/constants";
+
+export const metadata: Metadata = {
+  title: "Cashflow-backed lending, conserved on-chain",
+  description: "Notch decodes a real cashflow's financing capacity from a proven Ethereum transaction and enforces on Creditcoin that no combination of lenders can finance more than that capacity.",
+};
 
 export default function HomePage() {
   return <div className="mx-auto max-w-6xl px-6 sm:px-10">
