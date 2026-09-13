@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "description": "Surfaces A (Verify), B (Position), C (Activity). Next.js 16.x --webpack (16.3.4, not the 16.2 pin -- see DECISIONS.md D29), wagmi/viem, lucide-react. Gate 8 scope.",
+  "license": "MIT",
   "scripts": {
     "dev": "next dev --webpack",
     "build": "next build --webpack",
