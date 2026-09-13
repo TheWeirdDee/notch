@@ -1,0 +1,21 @@
+{
+  "purpose": "Path 2 (Create a demo cashflow) proof of work -- exercises the exact call sequence web/src/components/create-demo-cashflow.tsx uses, run via a funded key because no browser/wallet automation tool is available (D30). Does not replace the pre-loaded demo (web/src/lib/demo.ts remains stream 189).",
+  "network": "ethereum-sepolia",
+  "sourceContract": "0xe61cb9153356419bdaD0A8767c059f92d221a3C4",
+  "createTxHash": "0xf5904f24e8980a424346478b71590901435cc78646fe5f45f4716a3541a55260",
+  "blockNumber": "11695944",
+  "streamId": "190",
+  "sender": "0xB112f2cAdE7743833F9fbc2Fd58BD4779F9e0C03",
+  "recipient": "0xB112f2cAdE7743833F9fbc2Fd58BD4779F9e0C03",
+  "demoAsset": "0x7d20609bdb2fa772143905d6ada079b1515db0b0",
+  "depositAmount": "100000000000000000000000",
+  "depositAmountHuman": "100000",
+  "cancelable": false,
+  "transferable": false,
+  "unlockAmountsStart": "0",
+  "unlockAmountsCliff": "0",
+  "timestampsStart": 1789303106,
+  "timestampsEnd": 1791981506,
+  "cliffTime": 1791895106,
+  "recordedAt": "2026-09-13T12:38:41.022Z"
+}
