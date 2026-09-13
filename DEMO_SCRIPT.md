@@ -48,7 +48,7 @@ either fetch its proof well before recording starts, or accept a short pause/cut
 ## 0:45–1:05 — Lender A finances (real transfer)
 
 Show: switch to the Lender A wallet, `/position/0x3fed0d1620134bb777847debb9f2bb9f7c455668f67b03c780f0f6896c0a0a48`.
-Point at the live "Verified capacity / Financed / Remaining" tiles (100,000 / 70,000 /
+Point at the live "Capacity / Financed / Remaining" tiles (100,000 / 70,000 /
 30,000) and the "Most recent settled loan" panel. Click "View transaction" — real
 Blockscout page opens.
 
