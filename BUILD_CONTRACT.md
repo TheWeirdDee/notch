@@ -38,8 +38,9 @@ data/       ledger.jsonl, receipts/, campaign/
 
 ## Mode
 
-`notch.config.json` at repo root carries `paper_only`. It is `true` until Gate 6 proves
-live micro loans. `PAPER` receipts never add into `LIVE` totals (invariant 7).
+`notch.config.json` at repo root carries `paper_only`. It was `true` until Gate 6
+proved live micro loans (2026-09-09); flipped to `false` once that PASS held, per
+this rule. `PAPER` receipts never add into `LIVE` totals (invariant 7).
 
 ## Gate status
 
