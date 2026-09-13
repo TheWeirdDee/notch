@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Notch — Whitepaper</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bone: #EEE9DE;
+    --ink: #17150F;
+    --ink-soft: #6B6558;
+    --line: #D8D0C0;
+    --cut: #B23A2E;
+    --settled: #2E5D3A;
+    --panel: #F7F3EB;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    color: var(--ink);
+    background: var(--bone);
+    font-size: 11pt;
+    line-height: 1.55;
+    font-variant-numeric: tabular-nums;
+  }
+  h1, h2, h3 { font-family: 'Fraunces', Georgia, serif; font-weight: 500; margin: 0; }
+  @page { size: A4; margin: 18mm 16mm 20mm 16mm; }
+  .page { padding: 0; }
+  .page + .page { break-before: page; page-break-before: always; }
+  .eyebrow { font-size: 9pt; letter-spacing: 0.04em; text-transform: uppercase; color: var(--cut); font-weight: 600; margin: 0 0 6px; }
+  .cover { min-height: 245mm; display: flex; flex-direction: column; justify-content: center; }
+  .cover .mark { width: 56px; height: 56px; background: var(--ink); position: relative; margin-bottom: 28px; }
+  .cover .mark svg { position: absolute; inset: 11px; }
+  .cover h1 { font-size: 46pt; line-height: 1.04; letter-spacing: -0.01em; }
+  .cover .sub { margin-top: 18px; font-size: 14pt; color: var(--ink-soft); max-width: 480px; line-height: 1.45; }
+  .cover .meta { margin-top: 46px; border-top: 1px solid var(--line); padding-top: 18px; display: flex; gap: 40px; flex-wrap: wrap; }
+  .cover .meta div dt { font-size: 8.5pt; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.04em; }
+  .cover .meta div dd { margin: 4px 0 0; font-size: 10.5pt; font-weight: 500; }
+  .cover .badges { margin-top: 36px; display: flex; gap: 10px; flex-wrap: wrap; }
+  .badge { border: 1px solid var(--line); padding: 5px 11px; font-size: 9pt; color: var(--ink-soft); }
+  h2.section-title { font-size: 22pt; margin-bottom: 4px; }
+  .section-head { margin-bottom: 18px; }
+  p { margin: 0 0 10px; }
+  .lede { font-size: 12.5pt; color: var(--ink); }
+  .soft { color: var(--ink-soft); }
+  .panel { background: var(--panel); border: 1px solid var(--line); padding: 14px 16px; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+  table { width: 100%; border-collapse: collapse; font-size: 9.3pt; margin: 10px 0 16px; }
+  th { text-align: left; font-weight: 600; border-bottom: 1px solid var(--ink); padding: 6px 8px 6px 0; color: var(--ink); font-size: 8.8pt; text-transform: uppercase; letter-spacing: 0.02em; }
+  td { border-bottom: 1px solid var(--line); padding: 7px 8px 7px 0; vertical-align: top; }
+  code, .mono { font-family: 'Courier New', ui-monospace, monospace; font-size: 8.6pt; word-break: break-all; }
+  .hash { font-family: 'Courier New', ui-monospace, monospace; font-size: 8.4pt; word-break: break-all; color: var(--ink); }
+  .tag-ok { color: var(--settled); font-weight: 600; }
+  .tag-revert { color: var(--cut); font-weight: 600; }
+  ul, ol { margin: 8px 0 14px; padding-left: 20px; }
+  li { margin-bottom: 5px; }
+  .callout { border-left: 3px solid var(--cut); padding: 4px 0 4px 14px; margin: 14px 0; }
+  .flow { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; font-size: 9.5pt; margin: 14px 0; }
+  .flow .step { border: 1px solid var(--line); background: var(--panel); padding: 6px 10px; }
+  .flow .arrow { color: var(--ink-soft); }
+  .two-col { columns: 2; column-gap: 24px; }
+  .footer-line { margin-top: 28px; padding-top: 10px; border-top: 1px solid var(--line); font-size: 8.5pt; color: var(--ink-soft); display: flex; justify-content: space-between; }
+  .num-badge { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; background: var(--ink); color: var(--bone); font-size: 9.5pt; font-weight: 600; margin-right: 8px; flex-shrink: 0; }
+  .step-row { display: flex; align-items: flex-start; margin-bottom: 10px; }
+  .evidence-block { border: 1px solid var(--line); padding: 12px 14px; margin-bottom: 12px; }
+  .evidence-block .k { font-size: 8.3pt; text-transform: uppercase; letter-spacing: 0.03em; color: var(--ink-soft); margin-bottom: 3px; }
+  .bignum { font-family: 'Fraunces', serif; font-size: 24pt; font-weight: 500; }
+</style>
+</head>
+<body>
+
+<!-- ============ COVER ============ -->
+<div class="page cover">
+  <div class="mark"><svg viewBox="0 0 32 32" fill="var(--bone)"><path d="M4 4 H12 L16 13 L20 4 H28 V28 H4 Z"/></svg></div>
+  <h1>Notch</h1>
+  <p class="sub">A conservation layer for cross-chain cashflow-backed lending on Creditcoin. It decodes a real cashflow's financing capacity from a proven Ethereum transaction and enforces, on-chain, that no combination of lenders can finance more than that capacity.</p>
+  <div class="badges">
+    <span class="badge">BUIDL CTC 2026 Fall</span>
+    <span class="badge">Attestcoin Protocol</span>
+    <span class="badge">DeFi track</span>
+    <span class="badge">Testnet only</span>
+  </div>
+  <div class="meta">
+    <div><dt>Live app</dt><dd>notch-web-sooty.vercel.app</dd></div>
+    <div><dt>Repository</dt><dd>github.com/TheWeirdDee/notch</dd></div>
+    <div><dt>Tests</dt><dd>87 / 87 passing</dd></div>
+    <div><dt>Ledger</dt><dd>44 / 44 MATCH</dd></div>
+  </div>
+</div>
+
+<!-- ============ EXEC SUMMARY / PROBLEM ============ -->
+<div class="page">
+  <div class="section-head"><p class="eyebrow">1 — Executive Summary</p><h2 class="section-title">One shared limit, enforced on-chain</h2></div>
+  <p class="lede">Lenders on different chains can't see each other's commitments, so the same verified cashflow can look available to more than one of them at once and end up financed twice. Notch closes that gap: it decodes a cashflow's capacity from a proven, receipt-success Ethereum transaction — never a typed or cached number — and holds that capacity as one shared, depletable resource in a Creditcoin registry. Every lender draws from the same balance; a draw past what remains reverts on-chain, regardless of how many other lenders have already drawn.</p>
+
+  <p class="eyebrow" style="margin-top:20px;">The problem</p>
+  <p>The same future cashflow can be financed twice by lenders who can't see each other's books — a documented, multi-billion-dollar failure mode in receivables finance. When the asset can also cross chains, an already-financed position can look untouched on the new chain: a lender on Creditcoin has no way to know what a lender on Ethereum has already committed against the same cashflow.</p>
+
+  <p class="eyebrow" style="margin-top:20px;">Who this is for</p>
+  <div class="grid2">
+    <div class="panel"><strong>Lenders &amp; underwriters</strong><p class="soft" style="margin-top:6px;">Assess a verifiable source and see exactly how much of it other lenders have already financed before committing funds.</p></div>
+    <div class="panel"><strong>Creditcoin's credit ecosystem</strong><p class="soft" style="margin-top:6px;">Build lending venues around one shared, enforceable capacity instead of isolated, unverifiable balance sheets.</p></div>
+  </div>
+
+  <p class="eyebrow" style="margin-top:20px;">What Sablier is, and why the lock is real</p>
+  <p><a href="https://sepolia.etherscan.io/address/0xe61cb9153356419bdaD0A8767c059f92d221a3C4" style="color:inherit;">Sablier</a> is a real, deployed streaming/lockup protocol on Ethereum — <code>SablierLockup v4.0</code>. Creating a stream locks actual ERC-20 tokens into that contract; nothing about the deposit is typed in or assumed. Attestcoin proves the stream's creation transaction happened and succeeded, and Notch decodes the locked <code>depositAmount</code> directly from that transaction's own <code>CreateLockupLinearStream</code> event — a real, third-party-held lock is what makes a claim's capacity real. Notch's contracts only ever <em>read</em> a Sablier lock this way; they never create, hold, or control Sablier funds.</p>
+</div>
+
+<!-- ============ HOW IT WORKS ============ -->
+<div class="page">
+  <div class="section-head"><p class="eyebrow">2 — How It Works</p><h2 class="section-title">Verify, finance, enforce</h2></div>
+
+  <div class="step-row"><span class="num-badge">1</span><div><strong>Verify.</strong> Attestcoin proves a real Sablier lock's creation transaction is included and succeeded; the registry decodes the locked deposit straight from its <code>CreateLockupLinearStream</code> event, never a typed number.</div></div>
+  <div class="step-row"><span class="num-badge">2</span><div><strong>Finance.</strong> A lender calls <code>finance()</code>: ccUSD transfers to the borrower and capacity is consumed, atomically, in one Creditcoin transaction.</div></div>
+  <div class="step-row"><span class="num-badge">3</span><div><strong>Enforce.</strong> Every other lender sees the same remaining balance. A draw past what's left reverts on-chain, every time.</div></div>
+
+  <div class="flow">
+    <span class="step">Ethereum Sablier tx</span><span class="arrow">→</span>
+    <span class="step">Attestcoin proof (ProofBuilder)</span><span class="arrow">→</span>
+    <span class="step">BlockProver precompile verify</span><span class="arrow">→</span>
+    <span class="step">receipt-status + event decode</span><span class="arrow">→</span>
+    <span class="step">claim instantiated on Creditcoin</span><span class="arrow">→</span>
+    <span class="step">finance(): capacity consumed + ccUSD transferred</span>
+  </div>
+
+  <p class="eyebrow" style="margin-top:22px;">Why Attestcoin is load-bearing, not decorative</p>
+  <p><code>instantiateClaim</code> — the only function on <code>AttestedCashflowRegistry</code> that can ever create a claim — spends its first lines calling the native BlockProver precompile's <code>verifyAndEmit</code>, and reverts <code>VerificationFailed()</code> immediately if that call returns false, before touching anything else. Every check after it — receipt-success, event decode, source-contract allowlist, lock-shape rules — runs on data that only exists because that precompile call already succeeded.</p>
+  <p>There is no second path in: no owner-set override, no admin mint, no <code>onlyOwner</code> modifier anywhere in either contract — checked directly against the deployed source, not assumed. <code>venue</code> is <code>immutable</code>, and <code>setVenue</code> is a permanent, unconditional revert stub kept only so the call site still resolves.</p>
+  <p class="soft">Checkable in one read, not just asserted: <code>available()</code> is always <code>originalCapacity − financedCapacity</code>, and <code>originalCapacity</code> is only ever written inside <code>instantiateClaim</code>, after the verify step above passes.</p>
+
+  <p class="eyebrow" style="margin-top:22px;">Architecture</p>
+  <table>
+    <tr><th>Package</th><th>Role</th></tr>
+    <tr><td><code>core/</code></td><td>Pure, deterministic reference model — capacity decode and conservation rules, no network or clock access.</td></tr>
+    <tr><td><code>adapter/</code></td><td>ProofBuilder HTTP client, viem-based precompile calls, proof assembly, append-only receipt ledger.</td></tr>
+    <tr><td><code>cli/</code></td><td><code>notch verify</code>, <code>notch deployment-check</code> — run via <code>npx tsx cli/src/index.ts &lt;command&gt;</code>.</td></tr>
+    <tr><td><code>contracts/</code></td><td>Solidity: <code>MockUSDC</code> (ccUSD), <code>AttestedCashflowRegistry</code>, <code>CashflowLendingVenue</code>, <code>NotchDemoAsset</code>.</td></tr>
+    <tr><td><code>web/</code></td><td>The Next.js dashboard — Verify, Position, Activity, Docs.</td></tr>
+    <tr><td><code>data/</code></td><td>Append-only receipt ledger (<code>ledger.jsonl</code>) and per-gate evidence.</td></tr>
+  </table>
+</div>
+
+<!-- ============ DEPLOYED CONTRACTS ============ -->
+<div class="page">
+  <div class="section-head"><p class="eyebrow">3 — Deployed Contracts</p><h2 class="section-title">Public addresses, both chains</h2></div>
+  <table>
+    <tr><th>Contract</th><th>Network</th><th>Address</th></tr>
+    <tr><td><code>AttestedCashflowRegistry</code></td><td>Creditcoin CC3 testnet</td><td class="hash">0x68952727aa2e684bec378120a651434b1de5e915</td></tr>
+    <tr><td><code>CashflowLendingVenue</code></td><td>Creditcoin CC3 testnet</td><td class="hash">0x5CEB2357eCC2fcA5eA77057ce8D74646E0C76493</td></tr>
+    <tr><td><code>MockUSDC</code> (ccUSD)</td><td>Creditcoin CC3 testnet</td><td class="hash">0x92db42991210a8f5a4c1de2ad36f10ef239f3498</td></tr>
+    <tr><td>SablierLockup v4.0 (allowlisted source)</td><td>Ethereum Sepolia</td><td class="hash">0xe61cb9153356419bdaD0A8767c059f92d221a3C4</td></tr>
+    <tr><td><code>NotchDemoAsset</code> (locked deposit token)</td><td>Ethereum Sepolia</td><td class="hash">0x7D20609BDB2fA772143905D6aDA079b1515db0b0</td></tr>
+  </table>
+  <p class="soft">These are the single source of truth for addresses; <code>web/src/lib/constants.ts</code> resolves to the same values, confirmed by <code>notch deployment-check</code>.</p>
+
+  <p class="eyebrow" style="margin-top:24px;">Independently verifying capacity yourself</p>
+  <p class="soft"><code>available()</code> is always <code>originalCapacity − financedCapacity</code>, computed by the registry contract itself — no app-side arithmetic:</p>
+  <div class="panel mono">cast call 0x68952727aa2e684bec378120a651434b1de5e915 \<br>&nbsp;&nbsp;"available(bytes32)(uint128)" &lt;claimId&gt; \<br>&nbsp;&nbsp;--rpc-url https://rpc.cc3-testnet.creditcoin.network</div>
+</div>
+
+<!-- ============ EVIDENCE LEDGER ============ -->
+<div class="page">
+  <div class="section-head"><p class="eyebrow">4 — Evidence Ledger</p><h2 class="section-title">The proof trail, one real position followed end to end</h2></div>
+  <p class="soft">Sablier stream #189, Ethereum Sepolia, 100,000 deposit — currently active, unlocks 2026-10-12. Every hash below is a real, mined, independently checkable transaction.</p>
+
+  <div class="evidence-block">
+    <div class="k">1 · Source — Sepolia, the capacity was decoded from this transaction</div>
+    <div class="hash">0x1e7d304d9d8ed1bb4ef54961c2d5551b35c224403fa46de30bb9cb28144a81fa</div>
+  </div>
+  <div class="evidence-block">
+    <div class="k">2 · Activation — Creditcoin, instantiateClaim() using the Attestcoin proof, block 5,475,774</div>
+    <div class="hash">0x2f2ada0a4d1b0f0030227de7b464c94e723d524815b21c67dfed45362aefeffe</div>
+    <p class="soft" style="margin-top:6px;">Registry state right after: <code>originalCapacity = 100,000</code>.</p>
+  </div>
+  <div class="evidence-block">
+    <div class="k">3 · Financed — Creditcoin, block 5,475,775 (the very next block) <span class="tag-ok">SUCCESS</span></div>
+    <div class="hash">0x442e69ef2ca5122d686834e1db867a587bc23ca35178bdd1d9d0c4a541fb8978</div>
+    <p class="soft" style="margin-top:6px;">70,000 ccUSD transferred; <code>available()</code> read live at block 5,475,774 (before) = <strong>100,000</strong>; at block 5,475,775 (this block) = <strong>30,000</strong>. Both figures independently re-read at those exact historical blocks, not inferred.</p>
+  </div>
+  <div class="evidence-block">
+    <div class="k">4 · Refused — Creditcoin, block 5,475,776 (the block right after) <span class="tag-revert">REVERTED</span></div>
+    <div class="hash">0x62cb553555d429951b88b9fc38459b1f57cdc2225ee0a1254edece662a4a8b93</div>
+    <p class="soft" style="margin-top:6px;">A second, independent lender requested 50,000 against the 30,000 that remained. Mined and reverted, not a preview. Contract error: <code>InsufficientFinancingCapacity()</code> — raw selector <code>0xa3388671</code>, independently re-computable as <code>keccak256("InsufficientFinancingCapacity()").slice(0,4)</code>. <code>available()</code> stayed <strong>30,000</strong> immediately after — the revert changed nothing, as expected.</p>
+  </div>
+
+  <p class="eyebrow" style="margin-top:20px;">claimId</p>
+  <p class="hash">0x3fed0d1620134bb777847debb9f2bb9f7c455668f67b03c780f0f6896c0a0a48</p>
+
+  <p class="eyebrow" style="margin-top:20px;">"Create a demo cashflow" — the in-app feature that lets a judge mint their own stream, proven working</p>
+  <p class="soft">Real Sablier stream #190 created end to end by the exact same code path the UI uses, exercised once to confirm it (not a mock):</p>
+  <div class="evidence-block">
+    <div class="k">Approve (NotchDemoAsset → Sablier)</div>
+    <div class="hash">0x6319689eeaeee58c4362b75f70170da307a9012abca92ecf93cb099b2b577658</div>
+  </div>
+  <div class="evidence-block">
+    <div class="k">Create (createWithTimestampsLL), block 11,695,944 — stream id 190 parsed from the real event, never guessed</div>
+    <div class="hash">0xf5904f24e8980a424346478b71590901435cc78646fe5f45f4716a3541a55260</div>
+  </div>
+</div>
+
+<!-- ============ CAMPAIGN + RIGOR ============ -->
+<div class="page">
+  <div class="section-head"><p class="eyebrow">5 — Measurement Campaign &amp; Test Rigor</p><h2 class="section-title">Conservation, measured — not just claimed</h2></div>
+
+  <div class="grid3">
+    <div class="panel"><div class="bignum">3,280</div><p class="soft" style="margin-top:4px;">units of over-financing prevented</p></div>
+    <div class="panel"><div class="bignum">87/87</div><p class="soft" style="margin-top:4px;">automated tests passing</p></div>
+    <div class="panel"><div class="bignum">44/44</div><p class="soft" style="margin-top:4px;">ledger receipts MATCH</p></div>
+  </div>
+
+  <p style="margin-top:18px;">Frozen, real, 5-position measurement campaign — full shared conservation vs. a per-lender-ceiling baseline, same real decoded capacities, same fixed draw plan, on these deployed contracts. Denominator: 5 positions × 4 draw steps each × 3 funded lenders. The frozen-set hash was committed to <code>GATES.md</code> before any finance scenario ran, and every receipt id and the full ablation table are recorded there.</p>
+
+  <table>
+    <tr><th>Position</th><th>Sepolia stream</th><th>Deposit</th></tr>
+    <tr><td>1</td><td>181</td><td>500</td></tr>
+    <tr><td>2</td><td>182</td><td>800</td></tr>
+    <tr><td>3</td><td>183</td><td>1,200</td></tr>
+    <tr><td>4</td><td>184</td><td>600</td></tr>
+    <tr><td>5</td><td>185</td><td>1,000</td></tr>
+  </table>
+
+  <p class="eyebrow" style="margin-top:20px;">Verify it yourself, independent of this app</p>
+  <div class="panel mono">npx tsx cli/src/index.ts verify &lt;receipt_id&gt;<br>node --import tsx scripts/verify-all-receipts.ts   # every receipt in the ledger, recomputed from the pure reference model</div>
+  <p class="soft" style="margin-top:8px;">Recomputes each receipt independently from its own recorded proof inputs via the pure reference model (<code>core/src/instantiate.ts</code> / <code>core/src/apply.ts</code>) — not this app's own arithmetic.</p>
+</div>
+
+<!-- ============ SCOPE, IP, COMPETITIVE ============ -->
+<div class="page">
+  <div class="section-head"><p class="eyebrow">6 — Scope, Boundaries &amp; Positioning</p><h2 class="section-title">What is proven, what is not, and where this sits</h2></div>
+
+  <p class="eyebrow">Scope &amp; boundaries</p>
+  <p>This build proves capacity conservation and atomic, real-time origination. It does not provide repayment, collateral recovery, or outbound writes back to the source chain — Attestcoin's current release is read-only, Ethereum to Creditcoin, and repayment is v2 scope. All tokens involved (the deposit asset, ccUSD) are testnet-only with no cash value.</p>
+
+  <p class="eyebrow" style="margin-top:16px;">Third-party IP</p>
+  <p>Every contract in <code>contracts/src/</code> is original to this repo. Nothing here forks or vendors another team's codebase. Official Gluwa/Creditcoin repositories (precompile ABIs, <code>EvmV1Decoder.sol</code>) were read as public interface references during development — never copied wholesale, never run at build or runtime. <code>@gluwa/usc-sdk</code> is deliberately not a dependency anywhere in this repo (it pulls in <code>ethers</code>, which this project avoids entirely); Sablier and Creditcoin's own precompiles are called directly, by address, against their published interfaces.</p>
+
+  <p class="eyebrow" style="margin-top:16px;">Where this sits against the field</p>
+  <p class="soft">This season's Attestcoin submissions largely share one shape: prove an Ethereum fact, then make a single lending or scoring decision from it — Attestcoin's own Tutorial 4 (a cross-chain loan dApp), CrossCredit (proves Aave repayments and lends), CreditX (proves Ethereum history, mints a score, lends), and the prior season's HashCredit (proved an external income stream, originated one loan). Each treats the proven fact as information read once by one decision. Under the same positions, lenders and amounts, that shape cannot represent how much of a position is <em>already</em> spent by someone else — independent per-lender guards can't see each other, so they permit collective over-allocation that a shared, conserved capacity refuses by construction. That is the wedge Notch is built around: not a better proof, but a shared ledger that remembers what every other lender already drew.</p>
+
+  <p class="eyebrow" style="margin-top:16px;">Roadmap (v2, not claimed here)</p>
+  <ul>
+    <li>Repayment and collateral recovery flows.</li>
+    <li>Outbound writes back to the source chain, once Attestcoin's writability subsystem supports it.</li>
+    <li>Additional source protocols beyond Sablier Lockup, behind the same fail-closed shape checks.</li>
+  </ul>
+</div>
+
+<!-- ============ CLOSING / LINKS ============ -->
+<div class="page">
+  <div class="section-head"><p class="eyebrow">7 — Links &amp; Verification</p><h2 class="section-title">Everything above, checkable directly</h2></div>
+
+  <table>
+    <tr><th>Resource</th><th>Location</th></tr>
+    <tr><td>Live app</td><td>https://notch-web-sooty.vercel.app/ — no wallet needed to browse, zero environment variables</td></tr>
+    <tr><td>Source repository</td><td>https://github.com/TheWeirdDee/notch (MIT license)</td></tr>
+    <tr><td>Full integration doc</td><td><code>ATTESTCOIN_INTEGRATION.md</code> — verify/decode/instantiate path, guarantees table</td></tr>
+    <tr><td>Every gate, every tx</td><td><code>GATES.md</code> — the complete build history with evidence</td></tr>
+    <tr><td>Implementation decisions</td><td><code>DECISIONS.md</code> — append-only, corrections recorded not silent</td></tr>
+    <tr><td>In-app documentation</td><td><code>/docs</code> route — the same integration depth, browsable</td></tr>
+  </table>
+
+  <div class="callout" style="margin-top:22px;">
+    <p style="font-size:12.5pt;">Notch enforces one shared financing capacity on Creditcoin. In its live CC3 testnet demonstration, a 100,000-capacity claim accepted a 70,000 ccUSD financing transaction, leaving 30,000 available. A subsequent lender attempted to finance another 50,000 against the same claim and the transaction reverted on-chain. Every number above can be recomputed directly from the Creditcoin RPC without trusting this document or this app's frontend.</p>
+  </div>
+
+  <div class="footer-line">
+    <span>Notch — BUIDL CTC 2026 Fall</span>
+    <span>Testnet only. No real funds move.</span>
+  </div>
+</div>
+
+</body>
+</html>
