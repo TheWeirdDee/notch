@@ -19,9 +19,10 @@ export function NavBar() {
   const { switchChain } = useSwitchChain();
 
   const onWrongNetwork = isConnected && chainId !== cc3Testnet.id;
+  const navLinkClass = "relative py-1 text-ink-soft hover:text-ink aria-[current=page]:text-ink after:absolute after:-bottom-1 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-cut after:transition-transform aria-[current=page]:after:scale-x-100";
 
   return (
-    <header className="border-b border-line">
+    <header className="sticky top-0 z-40 border-b border-line bg-bone">
       {onWrongNetwork && (
         <div className="bg-cut/10 px-6 py-2 text-center text-sm text-cut">
           Your wallet is on the wrong network.{" "}
@@ -37,22 +38,24 @@ export function NavBar() {
             <span className="font-display text-lg font-medium">Notch</span>
           </Link>
           <nav aria-label="Main navigation" className="flex items-center gap-4 text-sm sm:gap-6">
-            <Link href="/verify" aria-current={pathname === "/verify" ? "page" : undefined} className="text-ink-soft hover:text-ink aria-[current=page]:text-ink">
+            <Link href="/verify" aria-current={pathname === "/verify" ? "page" : undefined} className={navLinkClass}>
               Verify
             </Link>
             <Link
               href={`/position/${claimId || DEMO.claimId}`}
-              className="text-ink-soft hover:text-ink"
+              aria-current={pathname.startsWith("/position") ? "page" : undefined}
+              className={navLinkClass}
             >
               Position
             </Link>
             <Link
               href={`/activity/${claimId || DEMO.claimId}`}
-              className="text-ink-soft hover:text-ink"
+              aria-current={pathname.startsWith("/activity") ? "page" : undefined}
+              className={navLinkClass}
             >
               Activity
             </Link>
-            <Link href="/docs" aria-current={pathname === "/docs" ? "page" : undefined} className="text-ink-soft hover:text-ink aria-[current=page]:text-ink">
+            <Link href="/docs" aria-current={pathname.startsWith("/docs") ? "page" : undefined} className={navLinkClass}>
               Docs
             </Link>
           </nav>
