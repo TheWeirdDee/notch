@@ -1,51 +1,153 @@
 # Notch
 
-**3,280 units of over-financing prevented** across a frozen, real, 5-position measurement
-set — full conservation vs. a per-lender-ceiling baseline, same real decoded capacities,
-same fixed draw plan, on real Creditcoin CC3 testnet contracts. Denominator: 5 positions
-× 4 draw steps each × 3 funded lenders. Full campaign, every receipt id, and the
-ablation table: [`GATES.md` Gate 7](GATES.md#gate-7--frozen-set-locked-before-any-result-exists-2026-09-10).
+A conservation layer for cross-chain cashflow-backed lending on Creditcoin. It decodes
+a real cashflow's financing capacity from a proven Ethereum transaction and enforces,
+on-chain, that no combination of lenders can finance more than that capacity.
 
-Notch is a conservation layer for cross-chain cashflow-backed lending: it decodes a
-verified real-world cashflow's capacity from a proven Ethereum transaction, then
-enforces that no combination of lenders can finance more than that capacity, ever,
-inside its own registry on Creditcoin.
+> "If three different lenders on Creditcoin see the same verified $100k Ethereum cashflow stream, what stops them from lending $70k, $50k, and $40k simultaneously ($160k total) against it?"
+>
+> Notch is the shared registry that enforces one drawn-down limit: it holds the decoded $100k capacity on-chain, so a $70k loan from Lender A leaves $30k, Lender B takes the $30k remainder, and the fourth dollar past $100k reverts on-chain.
 
-## See it happen, live, on real testnet infrastructure
+| Network | Tests | Ledger | Track |
+|---|---|---|---|
+| Creditcoin CC3 testnet + Ethereum Sepolia | 87/87 | 44/44 MATCH | DeFi |
 
-One real position (Sablier stream 189, Ethereum Sepolia, 100,000 deposit):
+## Contents
 
-- **Source** — the real Sepolia transaction the capacity was decoded from:
-  `0x1e7d304d9d8ed1bb4ef54961c2d5551b35c224403fa46de30bb9cb28144a81fa`
-  ([Sepolia Etherscan](https://sepolia.etherscan.io/tx/0x1e7d304d9d8ed1bb4ef54961c2d5551b35c224403fa46de30bb9cb28144a81fa))
-- **Instantiate** — the real Creditcoin transaction that verified it and created the claim:
-  `0x2f2ada0a4d1b0f0030227de7b464c94e723d524815b21c67dfed45362aefeffe`
-  ([Blockscout](https://creditcoin-testnet.blockscout.com/tx/0x2f2ada0a4d1b0f0030227de7b464c94e723d524815b21c67dfed45362aefeffe))
-- **Finance** — a real 70,000 ccUSD loan, transferred and capacity-consumed atomically:
-  `0x442e69ef2ca5122d686834e1db867a587bc23ca35178bdd1d9d0c4a541fb8978`
-  ([Blockscout](https://creditcoin-testnet.blockscout.com/tx/0x442e69ef2ca5122d686834e1db867a587bc23ca35178bdd1d9d0c4a541fb8978))
+- [What it is](#what-it-is)
+- [Architecture](#architecture)
+- [Prerequisites](#prerequisites)
+- [Setup & run](#setup--run)
+- [Try it end to end](#try-it-end-to-end)
+- [Test](#test)
+- [Verify it yourself](#verify-it-yourself)
+- [Deployed addresses](#deployed-addresses)
+- [Evidence](#evidence)
+- [Scope & boundaries](#scope--boundaries)
+- [Repo docs](#repo-docs)
+- [Secret hygiene](#secret-hygiene)
 
-A second, independent lender then requesting 50,000 against the 30,000 that remained
-was refused for real, on-chain — mined, reverted, not a preview:
-`0x62cb553555d429951b88b9fc38459b1f57cdc2225ee0a1254edece662a4a8b93`
-([Blockscout](https://creditcoin-testnet.blockscout.com/tx/0x62cb553555d429951b88b9fc38459b1f57cdc2225ee0a1254edece662a4a8b93)).
+## What it is
 
-Live, current numbers for this exact position — no wallet required to view — at
-`/position/0x3fed0d1620134bb777847debb9f2bb9f7c455668f67b03c780f0f6896c0a0a48`
-once the app is running (below).
+Lenders on different chains can't see each other's commitments, so the same verified
+cashflow can look available to more than one of them at once and end up financed
+twice. Notch closes that gap: it decodes a cashflow's capacity from a proven,
+receipt-success Ethereum transaction — never a typed or cached number — and holds that
+capacity as one shared, depletable resource in a Creditcoin registry. Every lender
+draws from the same balance; a draw past what remains reverts on-chain, regardless of
+how many other lenders have already drawn.
 
-## Verify a receipt yourself
+The source of that capacity is [Sablier](https://sepolia.etherscan.io/address/0xe61cb9153356419bdaD0A8767c059f92d221a3C4)
+— a real, deployed streaming/lockup protocol on Ethereum (`SablierLockup v4.0`,
+`0xe61cb9153356419bdaD0A8767c059f92d221a3C4` on Sepolia). Creating a Sablier stream
+locks actual ERC-20 tokens into that contract; nothing about the deposit is typed in
+or assumed. Attestcoin proves the stream's creation transaction happened and
+succeeded, and Notch decodes the locked `depositAmount` directly from that
+transaction's own `CreateLockupLinearStream` event — a real, third-party-held lock is
+what makes a claim's capacity real. Notch's contracts only ever *read* a Sablier lock
+this way; they never create, hold, or control Sablier funds. (The dashboard can
+optionally help you create your own compliant stream from your own wallet as a
+convenience — see [Try it end to end](#try-it-end-to-end) — but that write still goes
+to Sablier's contract, signed by you, never by Notch.)
 
-Every ledger receipt recomputes independently, from its own recorded proof inputs,
-via the pure reference model — not the app's own arithmetic:
+For the mechanism in depth — the Attestcoin verify/decode path, the claim lifecycle,
+and the guarantees-vs-boundaries table — see [`ATTESTCOIN_INTEGRATION.md`](ATTESTCOIN_INTEGRATION.md)
+and the in-app `/docs` page (running locally once the app is up, see below).
+
+## Architecture
+
+| Package | Role |
+|---|---|
+| `core/` | Pure, deterministic reference model — capacity decode and conservation rules, no network or clock access. |
+| `adapter/` | ProofBuilder HTTP client, viem-based precompile calls, proof assembly, and the append-only receipt ledger. |
+| `cli/` | `notch verify`, `notch recover`/`paper`, `notch deployment-check` — run via `npx tsx cli/src/index.ts <command>`. |
+| `contracts/` | Solidity: `MockUSDC` (ccUSD), `AttestedCashflowRegistry`, `CashflowLendingVenue`. |
+| `web/` | The Next.js dashboard — Verify, Position, Activity, Docs. |
+| `data/` | The append-only receipt ledger (`ledger.jsonl`) and per-gate evidence. |
+
+```
+Ethereum Sablier tx
+  -> Attestcoin proof (ProofBuilder) + BlockProver precompile verification
+  -> receipt-status + event decode -> claim instantiated on Creditcoin
+  -> finance(): capacity consumed and ccUSD transferred atomically
+  -> conservation enforced -- no combination of lenders can exceed the decoded capacity
+```
+
+## Prerequisites
+
+- Node.js >= 20, npm.
+- [Foundry](https://getfoundry.sh) (`cast`) — only needed for the independent
+  `cast call` verification example below; not required to run or test the app.
+- A funded Creditcoin CC3 testnet wallet (native gas + ccUSD) and a browser wallet
+  extension — only needed to send a real `finance()` transaction from the dashboard;
+  reading a position needs neither.
+
+## Setup & run
 
 ```sh
-npx tsx cli/src/index.ts verify <receipt_id>   # one receipt, e.g. any id in data/ledger.jsonl
+npm ci
+npm run dev
+```
+
+Open `http://localhost:3000`. Reading a position needs no wallet — every figure on
+Position and Activity is a live Creditcoin read; connecting a wallet only enables
+sending a `finance()` transaction, it never changes what's displayed.
+
+## Try it end to end
+
+A copy-pasteable path through the whole system, from source transaction to on-chain
+enforcement, with what to expect at every step:
+
+1. `npm ci && npm run dev` — start the app. No wallet, API key, or `.env` edit is
+   needed to look at anything below.
+2. Open `http://localhost:3000/verify`. You'll see a dashboard already loaded with a
+   real demo cashflow (Sablier stream #189, Ethereum Sepolia) — live capacity,
+   financed and remaining figures at the top, and the source transaction, recipient
+   and lock expiry below them, all read from the deployed Creditcoin registry. (A
+   connected Sepolia wallet can instead click **Create a demo cashflow** to lock a
+   fresh Sablier stream of its own and skip straight to step 3 with it — real, not
+   simulated; see `DECISIONS.md`.)
+3. Click **Verify with Attestcoin**. Watch the status line move through fetching a
+   fresh Attestcoin proof of the source transaction, then checking that proof against
+   the live Creditcoin verifier — this claim is already active, so verification
+   reuses it rather than re-instantiating it.
+4. Look at the top of the same page: capacity **100,000**, financed **70,000**,
+   remaining **30,000** — read live from the registry contract, not typed in.
+5. Scroll down: **Latest settled loan** links the real 70,000 ccUSD finance
+   transaction on Blockscout, and **Reverted transactions** links a real, independent
+   50,000 draw against the same claim that was mined and reverted on-chain — not a
+   simulated preview.
+6. Optionally, connect a funded Creditcoin CC3 testnet wallet (native gas + ccUSD) and
+   use the **Finance this cashflow** panel to send your own `finance()` call. Watch
+   the remaining-capacity figure at the top drop by exactly what you sent.
+7. Verify any of it yourself, independent of this app, with the CLI:
+   `npx tsx cli/src/index.ts verify <receipt_id>` recomputes a ledger receipt from its
+   own recorded proof inputs against the pure reference model (see
+   [Verify it yourself](#verify-it-yourself) below for the full recipe, including a
+   direct `cast call` against the live contract).
+
+## Test
+
+```sh
+npm test                                          # core + adapter + contracts: 87/87
+node --import tsx scripts/verify-all-receipts.ts  # full ledger: 44/44 MATCH
+npx tsx cli/src/index.ts deployment-check         # confirms deployed addresses match the manifest
+npm run build                                     # production build of web/
+```
+
+## Verify it yourself
+
+Recompute any ledger receipt independently, from its own recorded proof inputs, via
+the pure reference model — not the app's own arithmetic:
+
+```sh
+npx tsx cli/src/index.ts verify <receipt_id>       # one receipt, from data/ledger.jsonl
 node --import tsx scripts/verify-all-receipts.ts   # every receipt in the ledger
 ```
 
-Or recompute a live claim's capacity directly from Creditcoin storage, independent of
-this app entirely:
+Or read a live claim's capacity straight from Creditcoin storage, independent of this
+app entirely — `available()` is always `originalCapacity - financedCapacity`, computed
+by the registry contract itself:
 
 ```sh
 cast call 0x68952727aa2e684bec378120a651434b1de5e915 \
@@ -53,50 +155,62 @@ cast call 0x68952727aa2e684bec378120a651434b1de5e915 \
   --rpc-url https://rpc.cc3-testnet.creditcoin.network
 ```
 
-Full recipe and the honest guarantees-vs-boundaries table: [`ATTESTCOIN_INTEGRATION.md`](ATTESTCOIN_INTEGRATION.md).
+(`0x68952727aa2e684bec378120a651434b1de5e915` is the `AttestedCashflowRegistry` — see
+the address table below.)
 
-## Run locally
+## Deployed addresses
 
-```sh
-npm ci
-npm run dev
-```
+| Contract | Network | Address |
+|---|---|---|
+| `AttestedCashflowRegistry` | Creditcoin CC3 testnet | [`0x68952727aa2e684bec378120a651434b1de5e915`](https://creditcoin-testnet.blockscout.com/address/0x68952727aa2e684bec378120a651434b1de5e915) |
+| `CashflowLendingVenue` | Creditcoin CC3 testnet | [`0x5CEB2357eCC2fcA5eA77057ce8D74646E0C76493`](https://creditcoin-testnet.blockscout.com/address/0x5CEB2357eCC2fcA5eA77057ce8D74646E0C76493) |
+| `MockUSDC` (ccUSD) | Creditcoin CC3 testnet | [`0x92db42991210a8f5a4c1de2ad36f10ef239f3498`](https://creditcoin-testnet.blockscout.com/address/0x92db42991210a8f5a4c1de2ad36f10ef239f3498) |
+| Sablier Lockup v4.0 (allowlisted source) | Ethereum Sepolia | [`0xe61cb9153356419bdaD0A8767c059f92d221a3C4`](https://sepolia.etherscan.io/address/0xe61cb9153356419bdaD0A8767c059f92d221a3C4) |
 
-Open http://localhost:3000. Reading positions does not require a wallet — every figure
-on Position and Activity is a live Creditcoin read; connecting a wallet only enables
-sending a `finance()` transaction, it never changes what's displayed.
+These are the single source of truth for addresses; `web/src/lib/constants.ts` and
+`.env` both resolve to the same values, confirmed by `deployment-check` above.
 
-## Deploy
+## Evidence
 
-See [DEPLOYMENT.md](DEPLOYMENT.md) for Vercel setup. The web app requires no
-environment variables or server-side private keys.
+One real position, followed end to end (Sablier stream 189, Ethereum Sepolia, 100,000
+deposit — currently active, unlocks 2026-10-12):
 
-## Test
+- **Source** — the real Sepolia transaction the capacity was decoded from:
+  [`0x1e7d304d9d8ed1bb4ef54961c2d5551b35c224403fa46de30bb9cb28144a81fa`](https://sepolia.etherscan.io/tx/0x1e7d304d9d8ed1bb4ef54961c2d5551b35c224403fa46de30bb9cb28144a81fa)
+- **Instantiate** — the real Creditcoin transaction that verified it and created the claim:
+  [`0x2f2ada0a4d1b0f0030227de7b464c94e723d524815b21c67dfed45362aefeffe`](https://creditcoin-testnet.blockscout.com/tx/0x2f2ada0a4d1b0f0030227de7b464c94e723d524815b21c67dfed45362aefeffe)
+- **Finance** — a real 70,000 ccUSD loan, transferred and capacity-consumed atomically:
+  [`0x442e69ef2ca5122d686834e1db867a587bc23ca35178bdd1d9d0c4a541fb8978`](https://creditcoin-testnet.blockscout.com/tx/0x442e69ef2ca5122d686834e1db867a587bc23ca35178bdd1d9d0c4a541fb8978)
+- **Refused** — a second, independent lender requesting 50,000 against the 30,000 that
+  remained, mined and reverted on-chain, not a preview:
+  [`0x62cb553555d429951b88b9fc38459b1f57cdc2225ee0a1254edece662a4a8b93`](https://creditcoin-testnet.blockscout.com/tx/0x62cb553555d429951b88b9fc38459b1f57cdc2225ee0a1254edece662a4a8b93)
 
-```sh
-npm test                                          # core + adapter + contracts, 87/87
-node --import tsx scripts/verify-all-receipts.ts  # full ledger, 44/44 MATCH
-npx tsx cli/src/index.ts deployment-check
-npm run build
-```
+**3,280 units of over-financing prevented** across a frozen, real, 5-position
+measurement campaign — full shared conservation vs. a per-lender-ceiling baseline,
+same real decoded capacities, same fixed draw plan, on these deployed contracts.
+Denominator: 5 positions × 4 draw steps each × 3 funded lenders. Full campaign, every
+receipt id, and the ablation table: [`GATES.md` Gate 7](GATES.md#gate-7--frozen-set-locked-before-any-result-exists-2026-09-10).
 
-## Further reading
+## Scope & boundaries
 
-- [Attestcoin integration, in depth](ATTESTCOIN_INTEGRATION.md) — the verify → decode →
-  instantiate path, the calldata-fallback boundary, and the guarantees table.
-- [Gate evidence](GATES.md) — every gate, every real transaction, every finding.
-- [Implementation decisions](DECISIONS.md)
-- [Claims and limitations](CLAIMS.md)
-- [Standing build instructions](AGENTS.md)
-
-## Scope
-
-This build proves capacity conservation and real-time, atomic origination. It does
+This build proves capacity conservation and atomic, real-time origination. It does
 not provide repayment, collateral recovery, or outbound writes back to the source
 chain — Attestcoin's current release is read-only, Ethereum to Creditcoin, and
 repayment is v2 scope. All tokens involved (the deposit asset, ccUSD) are testnet-only
-with no cash value.
+with no cash value. Full guarantees-vs-boundaries table: [`ATTESTCOIN_INTEGRATION.md`](ATTESTCOIN_INTEGRATION.md).
 
-Local environment files, private keys, logs and build output are excluded from Git.
-Published transaction hashes, contract addresses and receipts are public testnet
-evidence.
+## Repo docs
+
+- [`ATTESTCOIN_INTEGRATION.md`](ATTESTCOIN_INTEGRATION.md) — the verify -> decode ->
+  instantiate path, the calldata-fallback boundary, and the guarantees table.
+- [`GATES.md`](GATES.md) — every gate, every real transaction, every finding.
+- [`DECISIONS.md`](DECISIONS.md) — implementation decisions, append-only.
+- [`CLAIMS.md`](CLAIMS.md) — claims and their limitations.
+- [`AGENTS.md`](AGENTS.md) — standing build instructions.
+- [`DEPLOYMENT.md`](DEPLOYMENT.md) — deploying the web app.
+- `/docs` in the running app — the same integration depth, browsable.
+
+## Secret hygiene
+
+Environment files, private keys, and logs are excluded from Git. Every transaction
+hash, contract address, and receipt referenced above is public testnet evidence.
