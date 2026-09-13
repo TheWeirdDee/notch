@@ -1,8 +1,14 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import { BookOpen, Code2, ShieldCheck } from "lucide-react";
 import { REGISTRY_ADDRESS, VENUE_ADDRESS, SABLIER_LOCKUP_SEPOLIA, CCUSD_ADDRESS } from "@/lib/constants";
 import { DEMO } from "@/lib/demo";
 import { DocsNav, type DocSection } from "@/components/docs-nav";
+
+export const metadata: Metadata = {
+  title: "Documentation",
+  description: "How Notch's Attestcoin verify/decode path, claim lifecycle and guarantees-vs-boundaries work, with exact contract addresses and events.",
+};
 const sections: DocSection[] = [
   { id: "overview", label: "Overview" },
   { id: "attestcoin", label: "Attestcoin integration" },
