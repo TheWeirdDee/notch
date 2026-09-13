@@ -13,9 +13,9 @@ location.
 | 4 | Paper receipts on live proofs (J1–J4) | **PASS** (2026-09-09) | `data/ledger.jsonl`, `data/receipts/` — see detail below |
 | 5 | Recovery (query-before-retry, restart resume) | **PASS** for single-store PAPER; audited (round 1) and P1 contract findings from that audit independently confirmed fixed in source (round 2 + this verification) | `data/gate5/`, `data/audit-gates1-5/` — see detail below |
 | 6 | Live micro loans (Lender A and Lender B must be distinct funded wallets — PRD v2 invariant 12) | **PASS** (2026-09-09) | `data/gate6/*.json` — see detail below |
-| 7 | Campaign and ablation (incl. `user_supplied_amount` shown to disagree with the decoder) | IN PROGRESS — frozen set locked | `data/gate7/frozen-set.json`, hash below |
-| 8 | UI surfaces A–C plus public `/verify` surface (PRD v2 section 7.7) | NOT STARTED | — |
-| 9 | Submission freeze (README may name in-hackathon differentiation only — PRD v2 section 3) | NOT STARTED | — |
+| 7 | Campaign and ablation (incl. `user_supplied_amount` shown to disagree with the decoder) | **PASS** (2026-09-10) | `data/gate7/frozen-set.json` — see detail below |
+| 8 | UI surfaces A–C plus public `/verify` surface (PRD v2 section 7.7) | **PASS** (2026-09-10); 375px checked structurally, not confirmed by a human click-through (Phase 1 FIX 4) | see detail below |
+| 9 | Submission freeze (README may name in-hackathon differentiation only — PRD v2 section 3) | **PREPARED, not fully executed** (2026-09-12) — demo video and Discord co-design post not done (no recording/Discord access in this environment); everything else complete | see detail below |
 
 ## Gate 0 — detail
 
@@ -1008,3 +1008,52 @@ for the user to execute directly.
 
 Gate 9: **prepared, not fully executed** — the two items above are the honest gap.
 Nothing committed.
+
+## Post-submission fix pass — Sablier explanation, advanced/primary reordering, "Create a demo cashflow" (2026-09-13)
+
+Standing pre-gate sweep, cold: 87/87 tests, 44/44 ledger MATCH, `deployment-check`
+MATCH, `.env` untracked and gitignored. Clean; proceeded. Full account: `DECISIONS.md`
+D45.
+
+- **Sablier explained as core** in `README.md`, `web/src/app/docs/page.tsx`,
+  `web/src/app/page.tsx`, and `ATTESTCOIN_INTEGRATION.md`: what it is (a real
+  streaming/lockup protocol; a stream locks real ERC-20 tokens), why it's central to
+  the Attestcoin-depth story (the locked `depositAmount` is decoded from a proven
+  `CreateLockupLinearStream` event, never typed input), and the exact contract/event
+  named everywhere (`SablierLockup v4.0`, `0xe61cb9153356419bdaD0A8767c059f92d221a3C4`
+  on Sepolia; `CreateLockupLinearStream`).
+- **"Bring your own cashflow" demoted** on `/verify`: relabeled "Advanced: paste an
+  existing Sablier stream," reframed copy ("not the normal way to use Notch"),
+  visually de-emphasized (`text-xs`, muted). The pre-loaded demo's one-click "Verify
+  with Attestcoin" remains the untouched primary path.
+- **"Create a demo cashflow" (Path 2) built for real** — new
+  `web/src/components/create-demo-cashflow.tsx`: wallet+network-gated
+  (connect → switch → create, never attempts the write without both), hardcoded
+  compliance params (non-cancelable, non-transferable, zero unlock amounts, 100,000
+  deposit, 30-day cliff), handles `NotchDemoAsset`'s open testnet mint and Sablier
+  allowance automatically with live status at every step, parses the real `streamId`
+  from the mined `CreateLockupLinearStream` event (never guessed/incremented), and
+  flows straight into the existing `verify()` path with a 15-minute attestation-wait
+  window (vs. 90s for the typed-hash path, which assumes an already-attested tx).
+  wagmi-only signing throughout — no app/server private key anywhere in `web/src`.
+- **Proof it works, today, on the real contract**: `scripts/verify-create-demo-cashflow-path.mjs`
+  (new) ran the exact same sequence the UI runs. Real results, independently
+  re-verified by re-decoding the mined event (not just trusting the script's own
+  variables):
+  - approve tx: `0x6319689eeaeee58c4362b75f70170da307a9012abca92ecf93cb099b2b577658`
+  - create tx: `0xf5904f24e8980a424346478b71590901435cc78646fe5f45f4716a3541a55260`
+    (block 11695944, status success)
+  - stream id: **190**, parsed from the real event
+  - re-decoded event fields confirmed compliant: `cancelable: false`,
+    `transferable: false`, `unlockAmounts: {0, 0}`, `token` matches
+    `SEPOLIA_DEMO_ASSET` exactly, `depositAmount` = 100,000 × 10^18 exactly,
+    `cliffTime` ≈30 days out. Evidence:
+    `data/path2-create-demo-cashflow/proof-of-work.json`.
+  - The pre-loaded demo is untouched: `web/src/lib/demo.ts` still points at stream
+    189; stream 190 exists only as this feature's proof of work.
+- **Notch's own contracts: untouched, not redeployed.** Nothing in `contracts/src/`
+  changed.
+
+Post-fix sweep: `tsc --noEmit` clean, `eslint .` clean, isolated
+`NOTCH_NEXT_DIR=.next-publish next build --webpack` clean (6 routes). Full regression:
+87/87 unchanged. Ledger: 44/44 MATCH, unchanged. Nothing committed.
