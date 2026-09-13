@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": { "test": "node --import tsx --test test/protocol.test.mjs" },
   "description": "MockUSDC, AttestedCashflowRegistry, CashflowLendingVenue — Creditcoin CC3 Testnet. Gate 3 scope.",
+  "license": "MIT",
   "devDependencies": {
     "ganache": "^7.9.2"
   }
