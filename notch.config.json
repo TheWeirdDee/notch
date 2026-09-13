@@ -1,5 +1,5 @@
 {
-  "paper_only": true,
+  "paper_only": false,
   "network": {
     "source_chain": "ethereum-sepolia",
     "source_chain_key": 1,
