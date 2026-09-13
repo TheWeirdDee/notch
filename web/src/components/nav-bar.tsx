@@ -1,22 +1,48 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { useAccount, useChainId, useConnect, useDisconnect, useSwitchChain } from "wagmi";
 import { NotchLogo } from "./notch-logo";
 import { useCurrentClaim } from "@/lib/use-current-claim";
-import { shortAddress } from "@/lib/format";
+import { shortAddress, shortErrorMessage } from "@/lib/format";
 import { cc3Testnet } from "@/lib/chains";
 import { DEMO } from "@/lib/demo";
 import { usePathname } from "next/navigation";
 
+// A wallet extension's own popup can be dismissed, blocked, or simply never respond
+// (most often when more than one injected wallet is fighting over window.ethereum) --
+// none of that rejects wagmi's connect() promise, so relying on its own isPending
+// alone can leave the button reading "Connecting..." forever with no way out. Racing
+// it against a hard timeout guarantees the button always recovers and always says why.
+const CONNECT_TIMEOUT_MS = 20_000;
+
 export function NavBar() {
   const { address, isConnected } = useAccount();
-  const { connectors, connect, error, isPending } = useConnect();
+  const { connectors, connectAsync } = useConnect();
+  const [connecting, setConnecting] = useState(false);
+  const [connectError, setConnectError] = useState<string | null>(null);
   const pathname = usePathname();
   const { disconnect } = useDisconnect();
   const { claimId } = useCurrentClaim();
   const chainId = useChainId();
   const { switchChain } = useSwitchChain();
+
+  async function handleConnect() {
+    if (!connectors[0] || connecting) return;
+    setConnectError(null);
+    setConnecting(true);
+    try {
+      await Promise.race([
+        connectAsync({ connector: connectors[0] }),
+        new Promise((_, reject) => setTimeout(() => reject(new Error("Connection timed out. Check your wallet extension for a pending request or popup, or try again.")), CONNECT_TIMEOUT_MS)),
+      ]);
+    } catch (err) {
+      setConnectError(shortErrorMessage(err));
+    } finally {
+      setConnecting(false);
+    }
+  }
 
   const onWrongNetwork = isConnected && chainId !== cc3Testnet.id;
   const navLinkClass = "relative py-1 text-ink-soft hover:text-ink aria-[current=page]:text-ink after:absolute after:-bottom-1 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-cut after:transition-transform aria-[current=page]:after:scale-x-100";
@@ -69,15 +95,15 @@ export function NavBar() {
           </button>
         ) : (
           <button
-            onClick={() => { if (connectors[0]) connect({ connector: connectors[0] }); }}
-            disabled={!connectors[0] || isPending}
+            onClick={handleConnect}
+            disabled={!connectors[0] || connecting}
             className="rounded-sm border border-line px-3 py-1.5 text-sm hover:border-ink disabled:opacity-50"
           >
-            {isPending ? "Connecting…" : "Connect wallet"}
+            {connecting ? "Connecting…" : "Connect wallet"}
           </button>
         )}
       </div>
-      {error && <p role="alert" className="mx-auto max-w-6xl px-6 pb-3 text-sm text-cut">Wallet connection unavailable. Use an Ethereum-compatible wallet for new loans. You can explore the demo without one.</p>}
+      {connectError && <p role="alert" className="mx-auto max-w-6xl px-6 pb-3 text-sm text-cut">{connectError} You can still explore every page without a wallet.</p>}
     </header>
   );
 }
