@@ -1,5 +1,13 @@
 # Notch
 
+Built for BUIDL CTC 2026 Fall on the Attestcoin Protocol. Testnet only — no real
+funds move.
+
+**Live: [notch-web-sooty.vercel.app](https://notch-web-sooty.vercel.app/)** — no
+wallet needed to browse it, no environment variables were set to deploy it (see
+[Deployed addresses](#deployed-addresses) and [`DEPLOYMENT.md`](DEPLOYMENT.md) for why
+none are required).
+
 A conservation layer for cross-chain cashflow-backed lending on Creditcoin. It decodes
 a real cashflow's financing capacity from a proven Ethereum transaction and enforces,
 on-chain, that no combination of lenders can finance more than that capacity.
@@ -15,6 +23,7 @@ on-chain, that no combination of lenders can finance more than that capacity.
 ## Contents
 
 - [What it is](#what-it-is)
+- [Why Attestcoin is load-bearing, not decorative](#why-attestcoin-is-load-bearing-not-decorative)
 - [Architecture](#architecture)
 - [Prerequisites](#prerequisites)
 - [Setup & run](#setup--run)
@@ -25,6 +34,7 @@ on-chain, that no combination of lenders can finance more than that capacity.
 - [Evidence](#evidence)
 - [Scope & boundaries](#scope--boundaries)
 - [Repo docs](#repo-docs)
+- [License](#license)
 - [Secret hygiene](#secret-hygiene)
 
 ## What it is
@@ -53,6 +63,28 @@ to Sablier's contract, signed by you, never by Notch.)
 For the mechanism in depth — the Attestcoin verify/decode path, the claim lifecycle,
 and the guarantees-vs-boundaries table — see [`ATTESTCOIN_INTEGRATION.md`](ATTESTCOIN_INTEGRATION.md)
 and the in-app `/docs` page (running locally once the app is up, see below).
+
+## Why Attestcoin is load-bearing, not decorative
+
+`instantiateClaim` — the only function on `AttestedCashflowRegistry` that can ever
+create a claim — spends its first four lines calling the native BlockProver
+precompile's `verifyAndEmit`, and reverts `VerificationFailed()` immediately if that
+call returns false, before touching anything else
+([`contracts/src/AttestedCashflowRegistry.sol:178-185`](contracts/src/AttestedCashflowRegistry.sol)).
+Every check after it — receipt-success, event decode, source-contract allowlist,
+lock-shape rules — runs on data that only exists because that precompile call already
+succeeded. There is no second path in: no owner-set override, no admin mint, no
+`onlyOwner` modifier anywhere in either contract (checked directly against the
+deployed source, not assumed). `venue` is `immutable`, and `setVenue` is a permanent,
+unconditional revert stub kept only so the call site still resolves — a deliberate,
+documented lockdown (`DECISIONS.md` D22/D23), not an oversight.
+
+That's checkable in one read, not just asserted: `available()` is always
+`originalCapacity − financedCapacity`, and `originalCapacity` is only ever written
+inside `instantiateClaim`, after the verify step above passes
+([Verify it yourself](#verify-it-yourself) below shows the exact `cast call`). Take
+the attestation away — an invalid proof, a wrong chain key, an unattested block — and
+this contract has no other way to create capacity for anyone to finance against.
 
 ## Architecture
 
@@ -199,6 +231,16 @@ chain — Attestcoin's current release is read-only, Ethereum to Creditcoin, and
 repayment is v2 scope. All tokens involved (the deposit asset, ccUSD) are testnet-only
 with no cash value. Full guarantees-vs-boundaries table: [`ATTESTCOIN_INTEGRATION.md`](ATTESTCOIN_INTEGRATION.md).
 
+Third-party IP: every contract in `contracts/src/` is original to this repo. Nothing
+here forks or vendors another team's codebase. Official Gluwa/Creditcoin repositories
+(`gluwa/creditcoin3`'s precompile ABIs, `gluwa/USC-Builder-Examples`'s
+`EvmV1Decoder.sol`) were read as public interface references during development —
+never copied wholesale, never run at build or runtime (`DECISIONS.md` records exactly
+which ones and why). `@gluwa/usc-sdk` is deliberately not a dependency anywhere in
+this repo (it pulls in `ethers`, which this project avoids entirely); Sablier and
+Creditcoin's own precompiles are called directly, by address, against their published
+interfaces.
+
 ## Repo docs
 
 - [`ATTESTCOIN_INTEGRATION.md`](ATTESTCOIN_INTEGRATION.md) — the verify -> decode ->
@@ -209,6 +251,10 @@ with no cash value. Full guarantees-vs-boundaries table: [`ATTESTCOIN_INTEGRATIO
 - [`AGENTS.md`](AGENTS.md) — standing build instructions.
 - [`DEPLOYMENT.md`](DEPLOYMENT.md) — deploying the web app.
 - `/docs` in the running app — the same integration depth, browsable.
+
+## License
+
+[MIT](LICENSE).
 
 ## Secret hygiene
 
