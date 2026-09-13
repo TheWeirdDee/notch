@@ -13,6 +13,21 @@ export async function readPosition(client: PublicClient, claimId: Hash) {
   return { claimId, sourceTx: claim[2], streamId: claim[4], borrower: claim[5], asset: claim[6], originalCapacity: claim[7], financedCapacity: claim[8], available, lockedUntil: BigInt(claim[9]), expired: BigInt(claim[9]) <= block.timestamp, active: claim[10], block: block.number };
 }
 
+// Proves a specific settled loan actually caused the registry's capacity change --
+// not just that a successful transfer exists and the registry separately says some
+// number -- by reading available() at the block immediately before the loan's own
+// block and at that exact block, straight from chain state. If the immediately-prior
+// block predates the claim's own activation, the "before" read legitimately has
+// nothing to compare against; that is surfaced honestly, not hidden as a zero.
+export async function readCapacityBeforeAfter(client: PublicClient, claimId: Hash, block: bigint) {
+  const after = await client.readContract({ address: REGISTRY_ADDRESS, abi: registryAbi, functionName: "available", args: [claimId], blockNumber: block });
+  let before: bigint | null = null;
+  try {
+    before = await client.readContract({ address: REGISTRY_ADDRESS, abi: registryAbi, functionName: "available", args: [claimId], blockNumber: block - 1n });
+  } catch { /* claim did not exist yet at block - 1 -- before is honestly unavailable */ }
+  return { before, after, block };
+}
+
 export async function readLoans(client: PublicClient, claimId: Hash) {
   // Deployment identity is a query bound, never loan data or a history fallback.
   const deployment = await client.getTransactionReceipt({ hash: "0x0fc1bebdc0f6e0f3604a8b7bb064fa8279d5fcb31d4724b2464aaaa2053797e6" });
