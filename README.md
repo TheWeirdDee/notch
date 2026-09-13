@@ -6,7 +6,8 @@ funds move.
 **Live: [notch-web-sooty.vercel.app](https://notch-web-sooty.vercel.app/)** — no
 wallet needed to browse it, no environment variables were set to deploy it (see
 [Deployed addresses](#deployed-addresses) and [`DEPLOYMENT.md`](DEPLOYMENT.md) for why
-none are required).
+none are required). **Whitepaper (PDF): [`NOTCH_WHITEPAPER.pdf`](NOTCH_WHITEPAPER.pdf)**
+— every address, tx hash and number in this README, in one document, built for judges.
 
 A conservation layer for cross-chain cashflow-backed lending on Creditcoin. It decodes
 a real cashflow's financing capacity from a proven Ethereum transaction and enforces,
@@ -243,6 +244,10 @@ interfaces.
 
 ## Repo docs
 
+- [`NOTCH_WHITEPAPER.pdf`](NOTCH_WHITEPAPER.pdf) — the project deck/whitepaper for
+  judges: problem, mechanism, deployed addresses, and the full evidence ledger, in one
+  document. Source: [`docs/whitepaper.html`](docs/whitepaper.html), rendered via
+  `node web/scripts/render-whitepaper.mjs`.
 - [`ATTESTCOIN_INTEGRATION.md`](ATTESTCOIN_INTEGRATION.md) — the verify -> decode ->
   instantiate path, the calldata-fallback boundary, and the guarantees table.
 - [`GATES.md`](GATES.md) — every gate, every real transaction, every finding.
