@@ -19,14 +19,25 @@ export async function readMinedRefusals(client: PublicClient, claimId: Hash) {
     if (receipt.status !== "reverted") throw new Error("Indexed refusal is not a reverted transaction.");
     const available = await client.readContract({ address: REGISTRY_ADDRESS, abi: registryAbi, functionName: "available", args: [claimId], blockNumber: receipt.blockNumber });
     let reason = "Transaction reverted";
+    let errorSignature: string | null = null;
+    let rawSelector: string | null = null;
     try {
       await client.simulateContract({ account: tx.from, address: VENUE_ADDRESS, abi: [...venueAbi, ...registryAbi], functionName: "finance", args: call.args, blockNumber: receipt.blockNumber });
     } catch (error) {
       const revert = error instanceof BaseError ? error.walk(e => e instanceof ContractFunctionRevertedError) : null;
       if (!(revert instanceof ContractFunctionRevertedError)) throw error;
-      if (revert.data?.errorName === "InsufficientFinancingCapacity") reason = "Insufficient capacity";
+      // revert.raw is the actual 4-byte selector the chain returned -- shown alongside
+      // the decoded name so a skeptic can hash the signature themselves and check it
+      // matches, rather than trusting this app's own ABI-decode of it.
+      if (revert.data?.errorName === "InsufficientFinancingCapacity") {
+        reason = "Insufficient capacity";
+        errorSignature = "InsufficientFinancingCapacity()";
+      } else if (revert.data?.errorName) {
+        errorSignature = `${revert.data.errorName}()`;
+      }
+      if (typeof revert.raw === "string") rawSelector = revert.raw.slice(0, 10);
     }
-    return { tx: hash, lender: tx.from, requested: call.args[2], available, block: receipt.blockNumber, reason };
+    return { tx: hash, lender: tx.from, requested: call.args[2], available, block: receipt.blockNumber, reason, errorSignature, rawSelector };
   }));
   return rows.filter(row => row !== null);
 }
