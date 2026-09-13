@@ -5,6 +5,18 @@ Creditcoin, and exactly where that guarantee stops. Accurate to
 `contracts/src/AttestedCashflowRegistry.sol` as deployed (Gate 6 fixed contracts,
 `GATES.md`).
 
+**Where the capacity itself comes from:** [Sablier](https://sepolia.etherscan.io/address/0xe61cb9153356419bdaD0A8767c059f92d221a3C4)
+is a real, deployed streaming/lockup protocol on Ethereum — `SablierLockup v4.0` at
+`0xe61cb9153356419bdaD0A8767c059f92d221a3C4` on Sepolia. Creating a stream locks
+actual ERC-20 tokens into that contract. This is central to why a Notch claim's
+capacity means anything: it is a real, third-party-held deposit, decoded from a
+proven transaction's own `CreateLockupLinearStream` event, never a number a user
+typed or a server cached. Notch's contracts only ever *read* a Sablier lock this way
+— they never create, hold, or move Sablier funds. The web app can optionally help a
+connected wallet create its own compliant stream directly against Sablier's contract
+as a convenience (`web/src/components/create-demo-cashflow.tsx`) — that write is
+still the user's own, signed by their own wallet, never by Notch.
+
 ## The verify → decode → instantiate path
 
 `instantiateClaim` takes a Sablier creation transaction's proof material (chain key,
