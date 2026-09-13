@@ -2,6 +2,11 @@
 
 .panel { border: 1px solid #d8d0c0; background: #f7f3eb; }
 html { scroll-behavior: smooth; scroll-padding-top: 6rem; }
+/* Lenis drives scrolling itself while active (landing page only); native CSS
+   smooth-scroll would otherwise fight it on anchor jumps. */
+html.lenis, html.lenis body { height: auto; }
+html.lenis.lenis-smooth { scroll-behavior: auto; }
+html.lenis.lenis-stopped { overflow: hidden; }
 button, summary, a { -webkit-tap-highlight-color: transparent; }
 button:not(:disabled), summary { cursor: pointer; }
 :focus-visible { outline: 2px solid #b23a2e; outline-offset: 4px; }
