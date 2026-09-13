@@ -15,7 +15,7 @@ import { formatDeposit, parseDepositAmount, shortAddress, shortErrorMessage } fr
 import { useCurrentClaim } from "@/lib/use-current-claim";
 import { PositionMetrics } from "@/components/position-metrics";
 import { MinedRefusals } from "@/components/mined-refusals";
-import { useLivePosition, useLiveLoans } from "@/lib/use-live-position";
+import { useLivePosition, useLiveLoans, useCapacityBeforeAfter } from "@/lib/use-live-position";
 import { CreateDemoCashflow } from "@/components/create-demo-cashflow";
 import { DEMO } from "@/lib/demo";
 
@@ -134,6 +134,11 @@ export default function VerifyPage() {
   const live = useLivePosition(selectedClaimId);
   const loansQuery = useLiveLoans(selectedClaimId);
   const latestLoan = !loansQuery.isError ? loansQuery.data?.at(-1) : undefined;
+  const beforeAfter = useCapacityBeforeAfter(selectedClaimId, latestLoan?.block);
+  // The real instantiateClaim() call for the pre-loaded demo claim already happened
+  // (before this page ever loaded) -- DEMO.instantiateTx is that real, mined tx, not a
+  // placeholder. A freshly-run verify() this session takes priority when it exists.
+  const effectiveInstantiateTx = instantiateTx ?? (selectedClaimId === DEMO.claimId ? DEMO.instantiateTx : undefined);
 
   async function handleFinance() {
     setFinanceError(null); setFinanceTx(null);
@@ -195,11 +200,12 @@ export default function VerifyPage() {
     <div className="mt-6 grid items-start gap-6 lg:grid-cols-[1.65fr_1fr]">
       <div className="min-w-0 space-y-6">
         <section className="panel min-w-0 p-5 sm:p-7">
-          <div className="flex flex-wrap justify-between gap-3"><div><p className="text-xs text-ink-soft">Source cashflow</p><h2 className="mt-2 font-display text-3xl">Sablier stream #{streamId || "—"}</h2></div><span className="h-fit border border-line px-3 py-1 text-xs">Ethereum Sepolia</span></div>
+          <div className="flex flex-wrap justify-between gap-3"><div><p className="text-xs text-ink-soft">1. Source cashflow</p><h2 className="mt-2 font-display text-3xl">Sablier stream #{streamId || "—"}</h2></div><span className="h-fit border border-line px-3 py-1 text-xs">Ethereum Sepolia</span></div>
           <dl className="mt-6 divide-y divide-line border-y border-line text-sm">
             <div className="py-4"><dt className="text-xs text-ink-soft">Creation transaction</dt><dd className="mt-2 break-all font-mono text-xs">{txHash || "No source selected"}</dd>{/^0x[0-9a-f]{64}$/i.test(txHash.trim()) && <a href={SEPOLIA_EXPLORER_TX(txHash.trim())} className="mt-2 inline-block underline underline-offset-4" target="_blank" rel="noreferrer">View source on Sepolia</a>}</div>
             <div className="flex flex-wrap justify-between gap-3 py-4"><dt className="text-ink-soft">Recipient</dt><dd>{live.data && !live.isError ? shortAddress(live.data.borrower) : "Awaiting live read"}</dd></div>
             <div className="flex flex-wrap justify-between gap-3 py-4"><dt className="text-ink-soft">Lock expires</dt><dd>{live.data && !live.isError ? new Date(Number(live.data.lockedUntil) * 1000).toLocaleString() : "Awaiting live read"}</dd></div>
+            <div className="py-4"><dt className="text-xs text-ink-soft">2. Activation (Attestcoin proof used here)</dt>{effectiveInstantiateTx ? <><dd className="mt-2 break-all font-mono text-xs">{effectiveInstantiateTx}</dd><a href={CC3_EXPLORER_TX(effectiveInstantiateTx)} className="mt-2 inline-block underline underline-offset-4" target="_blank" rel="noreferrer">View instantiateClaim() on Creditcoin</a></> : <dd className="mt-2 text-xs text-ink-soft">Not yet activated in this session — click Verify with Attestcoin.</dd>}</div>
           </dl>
           <div className="mt-6">
             <CreateDemoCashflow onCreated={handleStreamCreated} disabled={busy} />
@@ -253,9 +259,9 @@ export default function VerifyPage() {
           )}
         </section>
 
-        <section className="panel p-5 sm:p-7"><h2 className="font-display text-2xl">Latest settled loan</h2>{loansQuery.isLoading && <p className="mt-5 text-sm text-ink-soft">Reading LoanOriginated events from deployment onward…</p>}{loansQuery.isError && <p role="alert" className="mt-5 text-sm text-cut">Live loan history is unavailable. No saved history is substituted.</p>}{latestLoan && <div className="mt-5"><p className="font-display text-3xl">{formatDeposit(latestLoan.amount)} ccUSD</p><p className="mt-2 text-sm text-ink-soft">Lender {shortAddress(latestLoan.lender)}</p><p className="mt-3 text-sm text-settled">Settled on Creditcoin</p><a href={CC3_EXPLORER_TX(latestLoan.tx)} target="_blank" rel="noreferrer" className="mt-4 inline-block text-sm underline">View settled transaction</a></div>}{loansQuery.data?.length === 0 && !loansQuery.isError && <p className="mt-5 text-sm text-ink-soft">No settled loans for this claim.</p>}</section>
+        <section className="panel p-5 sm:p-7"><p className="text-xs text-ink-soft">3. Financed</p><h2 className="mt-2 font-display text-2xl">Latest settled loan</h2>{loansQuery.isLoading && <p className="mt-5 text-sm text-ink-soft">Reading LoanOriginated events from deployment onward…</p>}{loansQuery.isError && <p role="alert" className="mt-5 text-sm text-cut">Live loan history is unavailable. No saved history is substituted.</p>}{latestLoan && <div className="mt-5"><p className="font-display text-3xl">{formatDeposit(latestLoan.amount)} ccUSD</p><p className="mt-2 text-sm text-ink-soft">Lender {shortAddress(latestLoan.lender)}</p><p className="mt-3 text-sm text-settled">Settled on Creditcoin, block {latestLoan.block.toString()}</p>{beforeAfter.data && <p className="mt-3 text-xs leading-relaxed text-ink-soft">Registry state either side of this exact block, read live: available() was <strong className="text-ink">{beforeAfter.data.before !== null ? formatDeposit(beforeAfter.data.before) : "unavailable (claim not yet active)"}</strong> the block before, <strong className="text-ink">{formatDeposit(beforeAfter.data.after)}</strong> at this block — this transaction is what moved it, not a coincidence of matching numbers.</p>}<a href={CC3_EXPLORER_TX(latestLoan.tx)} target="_blank" rel="noreferrer" className="mt-4 inline-block text-sm underline">View settled transaction</a></div>}{loansQuery.data?.length === 0 && !loansQuery.isError && <p className="mt-5 text-sm text-ink-soft">No settled loans for this claim.</p>}</section>
 
-        {selectedClaimId && <MinedRefusals claimId={selectedClaimId} />}
+        {selectedClaimId && <div><p className="mb-2 text-xs text-ink-soft">4. Refused</p><MinedRefusals claimId={selectedClaimId} /></div>}
       </div>
 
       <div className="min-w-0 space-y-6">
